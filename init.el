@@ -55,7 +55,8 @@ This function should only modify configuration layer settings."
      treemacs
      version-control
      (c-c++ :variables
-            c-c++-enable-clang-support t)
+            c-c++-enable-clang-support t
+            c-c++-default-mode-for-headers 'c++-mode)
      )
 
    ;; List of additional packages that will be installed without being
