@@ -483,6 +483,10 @@ This function is called at the very end of Spacemacs startup, after layer
 configuration.
 Put your configuration code here, except for variables that should be set
 before packages are loaded."
+  (setq google-translate-backend-method 'curl)
+  (setq google-translate--tkk-url "http://translate.google.cn/")
+  (setq google-translate-base-url "http://translate.google.cn/translate_a/single")
+  (setq google-translate-default-target-language "zh-CN")
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
