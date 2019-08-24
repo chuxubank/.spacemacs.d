@@ -26,7 +26,6 @@ This function should only modify configuration layer settings."
    ;; a layer lazily. (default t)
    dotspacemacs-ask-for-lazy-installation t
 
-   ;; If non-nil layers with lazy install support are lazy installed.
    ;; List of additional paths where to look for configuration layers.
    ;; Paths must have a trailing slash (i.e. `~/.mycontribs/')
    dotspacemacs-configuration-layer-path '()
@@ -43,6 +42,7 @@ This function should only modify configuration layer settings."
      better-defaults
      emacs-lisp
      git
+     github
      helm
      markdown
      multiple-cursors
@@ -57,6 +57,12 @@ This function should only modify configuration layer settings."
      (c-c++ :variables
             c-c++-enable-clang-support t
             c-c++-default-mode-for-headers 'c++-mode)
+     myleetcode
+     python
+     (geolocation :variables
+                  geolocation-enable-automatic-theme-changer t
+                  geolocation-enable-location-service t
+                  geolocation-enable-weather-forecast t)
      )
 
    ;; List of additional packages that will be installed without being
@@ -133,8 +139,8 @@ It should only modify the values of Spacemacs settings."
    dotspacemacs-use-spacelpa nil
 
    ;; If non-nil then verify the signature for downloaded Spacelpa archives.
-   ;; (default nil)
-   dotspacemacs-verify-spacelpa-archives nil
+   ;; (default t)
+   dotspacemacs-verify-spacelpa-archives t
 
    ;; If non-nil then spacemacs will check for updates at startup
    ;; when the current branch is not `develop'. Note that checking for
@@ -190,8 +196,8 @@ It should only modify the values of Spacemacs settings."
    ;; List of themes, the first of the list is loaded when spacemacs starts.
    ;; Press `SPC T n' to cycle to the next theme in the list (works great
    ;; with 2 themes variants, one dark and one light)
-   dotspacemacs-themes '(spacemacs-dark
-                         spacemacs-light)
+   dotspacemacs-themes '(spacemacs-light
+                         spacemacs-dark)
 
    ;; Set the theme for the Spaceline. Supported themes are `spacemacs',
    ;; `all-the-icons', `custom', `doom', `vim-powerline' and `vanilla'. The
@@ -483,10 +489,20 @@ This function is called at the very end of Spacemacs startup, after layer
 configuration.
 Put your configuration code here, except for variables that should be set
 before packages are loaded."
+  ;; google-translate
   (setq google-translate-backend-method 'curl)
   (setq google-translate--tkk-url "http://translate.google.cn/")
   (setq google-translate-base-url "http://translate.google.cn/translate_a/single")
   (setq google-translate-default-target-language "zh-CN")
+
+  ;; leetcode
+  (setq leetcode-prefer-language "cpp")
+
+  ;; geolocation
+  (setq sunshine-appid "73415327e5b60b633bdc361471383be9")
+  (setq sunshine-location "Dongjing,CN")
+  (setq sunshine-units 'metric)
+  (setq sunshine-show-icons t)
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
