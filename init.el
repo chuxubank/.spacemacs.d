@@ -45,7 +45,6 @@ This function should only modify configuration layer settings."
      github
      helm
      markdown
-     multiple-cursors
      org
      (shell :variables
             shell-default-height 30
@@ -61,7 +60,6 @@ This function should only modify configuration layer settings."
      python
      (geolocation :variables
                   geolocation-enable-automatic-theme-changer t
-                  geolocation-enable-location-service t
                   geolocation-enable-weather-forecast t)
      )
 
@@ -370,10 +368,7 @@ It should only modify the values of Spacemacs settings."
                                :visual nil
                                :disabled-for-modes dired-mode
                                                    doc-view-mode
-                                                   markdown-mode
-                                                   org-mode
                                                    pdf-view-mode
-                                                   text-mode
                                :size-limit-kb 1000)
    ;; Code folding method. Possible values are `evil' and `origami'.
    ;; (default 'evil)
@@ -489,6 +484,9 @@ This function is called at the very end of Spacemacs startup, after layer
 configuration.
 Put your configuration code here, except for variables that should be set
 before packages are loaded."
+  ;; edit
+  (setq-default word-wrap t)
+
   ;; google-translate
   (setq google-translate-backend-method 'curl)
   (setq google-translate--tkk-url "http://translate.google.cn/")
@@ -499,6 +497,9 @@ before packages are loaded."
   (setq leetcode-prefer-language "cpp")
 
   ;; geolocation
+  (setq calendar-location-name "Shanghai"
+        calendar-latitude 31.09
+        calendar-longitude 121.26)
   (setq sunshine-appid "73415327e5b60b633bdc361471383be9")
   (setq sunshine-location "Dongjing,CN")
   (setq sunshine-units 'metric)
