@@ -45,7 +45,8 @@ This function should only modify configuration layer settings."
      github
      helm
      markdown
-     org
+     (org :variables
+          org-enable-bootstrap-support t)
      (shell :variables
             shell-default-height 30
             shell-default-position 'bottom)
@@ -61,6 +62,9 @@ This function should only modify configuration layer settings."
      (geolocation :variables
                   geolocation-enable-automatic-theme-changer t
                   geolocation-enable-weather-forecast t)
+     html
+     osx
+     latex
      )
 
    ;; List of additional packages that will be installed without being
@@ -70,7 +74,10 @@ This function should only modify configuration layer settings."
    ;; To use a local version of a package, use the `:location' property:
    ;; '(your-package :location "~/path/to/your-package/")
    ;; Also include the dependencies as they will not be resolved automatically.
-   dotspacemacs-additional-packages '()
+   dotspacemacs-additional-packages
+   '(
+    cdlatex
+    )
 
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
@@ -486,6 +493,10 @@ Put your configuration code here, except for variables that should be set
 before packages are loaded."
   ;; edit
   (setq-default word-wrap t)
+
+  ;; org
+  (setq org-preview-latex-default-process 'dvisvgm)
+  (add-hook 'org-mode-hook 'turn-on-org-cdlatex)
 
   ;; google-translate
   (setq google-translate-backend-method 'curl)
