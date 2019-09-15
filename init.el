@@ -60,11 +60,11 @@ This function should only modify configuration layer settings."
      myleetcode
      python
      (geolocation :variables
-                  geolocation-enable-automatic-theme-changer t
-                  geolocation-enable-weather-forecast t)
+                  geolocation-enable-automatic-theme-changer t)
      html
      osx
      latex
+     chinese
      )
 
    ;; List of additional packages that will be installed without being
@@ -76,14 +76,17 @@ This function should only modify configuration layer settings."
    ;; Also include the dependencies as they will not be resolved automatically.
    dotspacemacs-additional-packages
    '(
-    cdlatex
-    )
+     cdlatex
+     )
 
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
 
    ;; A list of packages that will not be installed and loaded.
-   dotspacemacs-excluded-packages '(vi-tilde-fringe)
+   dotspacemacs-excluded-packages
+   '(
+     vi-tilde-fringe
+     )
    ;; Defines the behaviour of Spacemacs when installing packages.
    ;; Possible values are `used-only', `used-but-keep-unused' and `all'.
    ;; `used-only' installs only explicitly used packages and deletes any unused
@@ -494,9 +497,22 @@ before packages are loaded."
   ;; edit
   (setq-default word-wrap t)
 
+  ;; chinese
+  (setq pyim-page-tooltip nil)
+  (setq-default pyim-english-input-switch-functions
+                '(
+                  pyim-probe-program-mode
+                  pyim-probe-dynamic-english
+                  ))
+  (setq pyim-punctuation-dict nil)
+  (global-set-key (kbd "M-j") 'pyim-convert-string-at-point)
+
+  (setq pangu-spacing-real-insert-separtor t)
+
   ;; org
   (setq org-preview-latex-default-process 'dvisvgm)
   (add-hook 'org-mode-hook 'turn-on-org-cdlatex)
+  (setq org-startup-indented t)
 
   ;; google-translate
   (setq google-translate-backend-method 'curl)
@@ -511,10 +527,6 @@ before packages are loaded."
   (setq calendar-location-name "Shanghai"
         calendar-latitude 31.09
         calendar-longitude 121.26)
-  (setq sunshine-appid "73415327e5b60b633bdc361471383be9")
-  (setq sunshine-location "Dongjing,CN")
-  (setq sunshine-units 'metric)
-  (setq sunshine-show-icons t)
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
