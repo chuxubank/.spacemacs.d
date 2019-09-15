@@ -43,29 +43,31 @@ This function should only modify configuration layer settings."
                       auto-completion-enable-sort-by-usage t
                       auto-completion-enable-help-tooltip t)
      better-defaults
+     (c-c++ :variables
+            c-c++-enable-clang-support t
+            c-c++-default-mode-for-headers 'c++-mode)
+     chinese
      emacs-lisp
+     (geolocation :variables
+                  geolocation-enable-automatic-theme-changer t)
      git
      github
      helm
+     (latex :variables
+            latex-enable-auto-fill t
+            latex-enable-folding t)
      markdown
+     myleetcode
      (org :variables
           org-enable-bootstrap-support t)
+     osx
+     python
      (shell :variables
             shell-default-height 30
             shell-default-position 'bottom)
      syntax-checking
      treemacs
      version-control
-     (c-c++ :variables
-            c-c++-enable-clang-support t
-            c-c++-default-mode-for-headers 'c++-mode)
-     myleetcode
-     python
-     (geolocation :variables
-                  geolocation-enable-automatic-theme-changer t)
-     osx
-     latex
-     chinese
      )
 
    ;; List of additional packages that will be installed without being
@@ -501,10 +503,8 @@ before packages are loaded."
   ;; chinese
   (setq pyim-page-tooltip nil)
   (setq-default pyim-english-input-switch-functions
-                '(
-                  pyim-probe-program-mode
-                  pyim-probe-dynamic-english
-                  ))
+                '(pyim-probe-program-mode
+                  pyim-probe-dynamic-english))
   (setq pyim-punctuation-dict nil)
   (global-set-key (kbd "M-j") 'pyim-convert-string-at-point)
 
@@ -512,17 +512,11 @@ before packages are loaded."
 
   ;; org
   (setq org-preview-latex-default-process 'dvisvgm)
-  (add-hook 'org-mode-hook 'turn-on-org-cdlatex)
   (setq org-startup-indented t)
-  ;; TAB confilct with yas https://orgmode.org/manual/Conflicts.html
-  (defun yas/org-very-safe-expand ()
-    (let ((yas/fallback-behavior 'return-nil)) (yas/expand)))
-  (add-hook 'org-mode-hook
-            (lambda ()
-              (make-variable-buffer-local 'yas/trigger-key)
-              (setq yas/trigger-key [tab])
-              (add-to-list 'org-tab-first-hook 'yas/org-very-safe-expand)
-              (define-key yas/keymap [tab] 'yas/next-field)))
+  (add-hook 'org-mode-hook 'turn-on-org-cdlatex)
+
+  ;; latex
+  (add-hook 'LaTeX-mode-hook 'turn-on-cdlatex)
 
   ;; google-translate
   (setq google-translate-backend-method 'curl)
