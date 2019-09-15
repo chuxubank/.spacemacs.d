@@ -38,7 +38,10 @@ This function should only modify configuration layer settings."
      ;; Uncomment some layer names and press `SPC f e R' (Vim style) or
      ;; `M-m f e R' (Emacs style) to install them.
      ;; ----------------------------------------------------------------
-     auto-completion
+     (auto-completion :variables
+                      auto-completion-enable-snippets-in-popup t
+                      auto-completion-enable-sort-by-usage t
+                      auto-completion-enable-help-tooltip t)
      better-defaults
      emacs-lisp
      git
@@ -50,7 +53,6 @@ This function should only modify configuration layer settings."
      (shell :variables
             shell-default-height 30
             shell-default-position 'bottom)
-     spell-checking
      syntax-checking
      treemacs
      version-control
@@ -61,7 +63,6 @@ This function should only modify configuration layer settings."
      python
      (geolocation :variables
                   geolocation-enable-automatic-theme-changer t)
-     html
      osx
      latex
      chinese
@@ -513,6 +514,15 @@ before packages are loaded."
   (setq org-preview-latex-default-process 'dvisvgm)
   (add-hook 'org-mode-hook 'turn-on-org-cdlatex)
   (setq org-startup-indented t)
+  ;; TAB confilct with yas https://orgmode.org/manual/Conflicts.html
+  (defun yas/org-very-safe-expand ()
+    (let ((yas/fallback-behavior 'return-nil)) (yas/expand)))
+  (add-hook 'org-mode-hook
+            (lambda ()
+              (make-variable-buffer-local 'yas/trigger-key)
+              (setq yas/trigger-key [tab])
+              (add-to-list 'org-tab-first-hook 'yas/org-very-safe-expand)
+              (define-key yas/keymap [tab] 'yas/next-field)))
 
   ;; google-translate
   (setq google-translate-backend-method 'curl)
