@@ -61,6 +61,7 @@ This function should only modify configuration layer settings."
      (org :variables
           org-enable-bootstrap-support t)
      osx
+     pdf
      python
      (shell :variables
             shell-default-height 30
@@ -474,6 +475,11 @@ This function is called immediately after `dotspacemacs/init', before layer
 configuration.
 It is mostly for variables that should be set before packages are loaded.
 If you are unsure, try setting them in `dotspacemacs/user-config' first."
+  ;; ui
+  (define-key global-map [menu-bar edit] nil)
+  (define-key global-map [menu-bar options] nil)
+
+  ;; archives
   (setq configuration-layer--elpa-archives
     '(("melpa-cn" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/")
       ("org-cn"   . "http://mirrors.tuna.tsinghua.edu.cn/elpa/org/")
@@ -500,6 +506,9 @@ before packages are loaded."
   ;; edit
   (setq-default word-wrap t)
 
+  ;; osx
+  (global-set-key (kbd "H-k") 'kill-this-buffer)
+
   ;; chinese
   (setq pyim-page-tooltip nil)
   (setq-default pyim-english-input-switch-functions
@@ -508,12 +517,15 @@ before packages are loaded."
   (setq pyim-punctuation-dict nil)
   (global-set-key (kbd "M-j") 'pyim-convert-string-at-point)
 
+  (global-pangu-spacing-mode t)
   (setq pangu-spacing-real-insert-separtor t)
 
   ;; org
   (setq org-preview-latex-default-process 'dvisvgm)
+  (setq org-latex-compiler "xelatex")
   (setq org-startup-indented t)
   (add-hook 'org-mode-hook 'turn-on-org-cdlatex)
+  (setq org-agenda-files '("~/org"))
 
   ;; latex
   (add-hook 'LaTeX-mode-hook 'turn-on-cdlatex)
@@ -535,3 +547,24 @@ before packages are loaded."
 
 ;; Do not write anything past this comment. This is where Emacs will
 ;; auto-generate custom variable definitions.
+(defun dotspacemacs/emacs-custom-settings ()
+  "Emacs custom settings.
+This is an auto-generated function, do not modify its content directly, use
+Emacs customize menu instead.
+This function is called at the very end of Spacemacs initialization."
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(evil-want-Y-yank-to-eol nil)
+ '(pyim-dicts
+   (quote
+    ((:name "bigdict" :file "/Users/misaka/Nutstore Files/Nutstore/pyim-bigdict.pyim")))))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
+)
