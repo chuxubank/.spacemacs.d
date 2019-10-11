@@ -523,6 +523,16 @@ before packages are loaded."
   ;; org
   (setq org-preview-latex-default-process 'dvisvgm)
   (setq org-latex-compiler "xelatex")
+  (setq org-preview-latex-process-alist
+        '((dvisvgm :programs ("xelatex" "dvisvgm")
+                   :description "xdv > svg"
+                   :message "you need to install the programs: latex and dvisvgm."
+                   :use-xcolor nil
+                   :image-input-type "xdv"
+                   :image-output-type "svg"
+                   :image-size-adjust (1.7 . 1.5)
+                   :latex-compiler ("xelatex -no-pdf -interaction nonstopmode -output-directory %o %f")
+                   :image-converter ("dvisvgm %f -n -b min -c %S -o %O"))))
   (setq org-startup-indented t)
   (add-hook 'org-mode-hook 'turn-on-org-cdlatex)
   (setq org-agenda-files '("~/org"))
