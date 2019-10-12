@@ -488,6 +488,14 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
     '(("melpa-cn" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/")
       ("org-cn"   . "http://mirrors.tuna.tsinghua.edu.cn/elpa/org/")
       ("gnu-cn"   . "http://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")))
+
+  ;; org
+  (defun yas-org-very-safe-expand ()
+    (let ((yas-fallback-behavior 'return-nil)) (yas-expand)))
+  (add-hook 'org-mode-hook
+            (lambda ()
+              (add-to-list 'org-tab-first-hook 'yas-org-very-safe-expand)
+              (define-key yas-keymap [tab] 'yas-next-field)))
   )
 
 (defun dotspacemacs/user-load ()
@@ -527,7 +535,7 @@ before packages are loaded."
         '((dvisvgm :programs ("xelatex" "dvisvgm")
                    :description "xdv > svg"
                    :message "you need to install the programs: latex and dvisvgm."
-                   :use-xcolor nil
+                   :use-xcolor t
                    :image-input-type "xdv"
                    :image-output-type "svg"
                    :image-size-adjust (1.7 . 1.5)
