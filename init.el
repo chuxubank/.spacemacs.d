@@ -496,6 +496,8 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
             (lambda ()
               (add-to-list 'org-tab-first-hook 'yas-org-very-safe-expand)
               (define-key yas-keymap [tab] 'yas-next-field)))
+  ;; chinese
+  (setq pyim-punctuation-translate-p '(no yes auto))
   )
 
 (defun dotspacemacs/user-load ()
@@ -522,7 +524,6 @@ before packages are loaded."
   (setq-default pyim-english-input-switch-functions
                 '(pyim-probe-program-mode
                   pyim-probe-dynamic-english))
-  (setq pyim-punctuation-dict nil)
   (global-set-key (kbd "M-j") 'pyim-convert-string-at-point)
 
   (global-pangu-spacing-mode t)
@@ -576,6 +577,9 @@ This function is called at the very end of Spacemacs initialization."
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(evil-want-Y-yank-to-eol nil)
+ '(org-modules
+   (quote
+    (org-bbdb org-bibtex org-docview org-eww org-gnus org-info org-irc org-mhe org-rmail org-w3m org-drill org-learn)))
  '(pyim-dicts
    (quote
     ((:name "bigdict" :file "/Users/misaka/Nutstore Files/Nutstore/pyim-bigdict.pyim")))))
