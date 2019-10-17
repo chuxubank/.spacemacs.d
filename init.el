@@ -557,15 +557,16 @@ before packages are loaded."
 
   ;; cdlatex
   (setq cdlatex-env-alist
-        '(("equation*" "\\begin{equation*}\nAUTOLABEL\n?\n\\end{equation*}\n" nil)
-          ("definiation" "\\begin{definiation}\nAUTOLABEL\n?\n\\end{definiation}\n" nil)
-          ("theorem" "\\begin{theorem}\nAUTOLABEL\n?\n\\end{theorem}\n" nil)))
+        '(("equation*" "\\begin{equation*}\n?\n\\end{equation*}" nil)
+          ("definition" "\\begin{definition}\n?\n\\end{definition}" nil)
+          ("theorem" "\\begin{theorem}\n?\n\\end{theorem}" nil)))
   (setq cdlatex-command-alist
         '(("equ*" "Insert equation* env"   "" cdlatex-environment ("equation*") t nil)
-          ("def" "Insert definiation env"   "" cdlatex-environment ("definiation") t nil)
+          ("def" "Insert definition env"   "" cdlatex-environment ("definition") t nil)
           ("thr" "Insert theorem env" "" cdlatex-environment ("theorem") t nil)))
   (setq cdlatex-math-modify-alist
-        '((86 "\\vb*" nil t nil nil)))
+        '((86 "\\vb*" nil t nil nil)
+          (66 "\\bm" nil t nil nil)))
 
   ;; google-translate
   (setq google-translate-backend-method 'curl)
