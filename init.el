@@ -227,7 +227,7 @@ It should only modify the values of Spacemacs settings."
    dotspacemacs-colorize-cursor-according-to-state t
 
    ;; Default font or prioritized list of fonts.
-   dotspacemacs-default-font '("Source Code Pro"
+   dotspacemacs-default-font '("Sarasa Mono SC"
                                :size 16
                                :weight normal
                                :width normal)
@@ -532,7 +532,6 @@ before packages are loaded."
 
   (global-pangu-spacing-mode t)
   (setq pangu-spacing-real-insert-separtor t)
-  (spacemacs//set-monospaced-font   "Source Code Pro" "Kaiti SC" 16 20)
 
   ;; org
   (setq org-preview-latex-default-process 'dvisvgm)
