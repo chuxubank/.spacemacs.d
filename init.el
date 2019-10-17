@@ -47,6 +47,8 @@ This function should only modify configuration layer settings."
             c-c++-enable-clang-support t
             c-c++-default-mode-for-headers 'c++-mode)
      chinese
+     (colors :variables
+             colors-enable-nyan-cat-progress-bar t)
      emacs-lisp
      (geolocation :variables
                   geolocation-enable-automatic-theme-changer t)
@@ -496,6 +498,7 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
             (lambda ()
               (add-to-list 'org-tab-first-hook 'yas-org-very-safe-expand)
               (define-key yas-keymap [tab] 'yas-next-field)))
+
   ;; chinese
   (setq pyim-punctuation-translate-p '(no yes auto))
   )
@@ -518,6 +521,7 @@ before packages are loaded."
 
   ;; osx
   (global-set-key (kbd "H-k") 'kill-this-buffer)
+  (global-set-key (kbd "H-f") 'spacemacs/helm-buffers-smart-do-search)
 
   ;; chinese
   (setq pyim-page-tooltip nil)
@@ -528,6 +532,7 @@ before packages are loaded."
 
   (global-pangu-spacing-mode t)
   (setq pangu-spacing-real-insert-separtor t)
+  (spacemacs//set-monospaced-font   "Source Code Pro" "Kaiti SC" 16 20)
 
   ;; org
   (setq org-preview-latex-default-process 'dvisvgm)
@@ -579,7 +584,7 @@ This function is called at the very end of Spacemacs initialization."
  '(evil-want-Y-yank-to-eol nil)
  '(org-modules
    (quote
-    (org-bbdb org-bibtex org-docview org-eww org-gnus org-info org-irc org-mhe org-rmail org-w3m org-drill org-learn)))
+    (org-bbdb org-bibtex org-docview org-eww org-gnus org-info org-irc org-mhe org-rmail org-w3m org-drill org-learn org-habit)))
  '(pyim-dicts
    (quote
     ((:name "bigdict" :file "/Users/misaka/Nutstore Files/Nutstore/pyim-bigdict.pyim")))))
