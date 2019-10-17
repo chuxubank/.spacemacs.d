@@ -51,7 +51,7 @@ This function should only modify configuration layer settings."
              colors-enable-nyan-cat-progress-bar t)
      emacs-lisp
      (geolocation :variables
-                  geolocation-enable-automatic-theme-changer t)
+                  geolocation-enable-automatic-theme-changer nil)
      git
      github
      helm
@@ -210,8 +210,10 @@ It should only modify the values of Spacemacs settings."
    ;; List of themes, the first of the list is loaded when spacemacs starts.
    ;; Press `SPC T n' to cycle to the next theme in the list (works great
    ;; with 2 themes variants, one dark and one light)
-   dotspacemacs-themes '(spacemacs-light
-                         spacemacs-dark)
+   dotspacemacs-themes '(
+                         spacemacs-dark
+                         spacemacs-light
+                         )
 
    ;; Set the theme for the Spaceline. Supported themes are `spacemacs',
    ;; `all-the-icons', `custom', `doom', `vim-powerline' and `vanilla'. The
@@ -552,6 +554,18 @@ before packages are loaded."
 
   ;; latex
   (add-hook 'LaTeX-mode-hook 'turn-on-cdlatex)
+
+  ;; cdlatex
+  (setq cdlatex-env-alist
+        '(("equation*" "\\begin{equation*}\nAUTOLABEL\n?\n\\end{equation*}\n" nil)
+          ("definiation" "\\begin{definiation}\nAUTOLABEL\n?\n\\end{definiation}\n" nil)
+          ("theorem" "\\begin{theorem}\nAUTOLABEL\n?\n\\end{theorem}\n" nil)))
+  (setq cdlatex-command-alist
+        '(("equ*" "Insert equation* env"   "" cdlatex-environment ("equation*") t nil)
+          ("def" "Insert definiation env"   "" cdlatex-environment ("definiation") t nil)
+          ("thr" "Insert theorem env" "" cdlatex-environment ("theorem") t nil)))
+  (setq cdlatex-math-modify-alist
+        '((86 "\\vb*" nil t nil nil)))
 
   ;; google-translate
   (setq google-translate-backend-method 'curl)
