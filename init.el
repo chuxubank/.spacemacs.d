@@ -527,6 +527,7 @@ before packages are loaded."
 
   ;; chinese
   (setq pyim-page-tooltip nil)
+  (setq pyim-fuzzy-pinyin-alist nil)
   (setq-default pyim-english-input-switch-functions
                 '(pyim-probe-program-mode
                   pyim-probe-dynamic-english))
@@ -559,14 +560,18 @@ before packages are loaded."
   (setq cdlatex-env-alist
         '(("equation*" "\\begin{equation*}\n?\n\\end{equation*}" nil)
           ("definition" "\\begin{definition}\n?\n\\end{definition}" nil)
-          ("theorem" "\\begin{theorem}\n?\n\\end{theorem}" nil)))
+          ("theorem" "\\begin{theorem}\n?\n\\end{theorem}" nil)
+          ("cases" "\\begin{cases}\n? & ,\\\\\n & .\n\\end{cases}" nil)))
   (setq cdlatex-command-alist
-        '(("equ*" "Insert equation* env"   "" cdlatex-environment ("equation*") t nil)
+        '(("eq*" "Insert equation* env"   "" cdlatex-environment ("equation*") t nil)
           ("def" "Insert definition env"   "" cdlatex-environment ("definition") t nil)
-          ("thr" "Insert theorem env" "" cdlatex-environment ("theorem") t nil)))
+          ("thr" "Insert theorem env"   "" cdlatex-environment ("theorem") t nil)
+          ("cas" "Insert cases env"   "" cdlatex-environment ("cases") t nil)))
   (setq cdlatex-math-modify-alist
         '((86 "\\vb*" nil t nil nil)
-          (66 "\\bm" nil t nil nil)))
+          (98 "\\bm" nil t nil nil)))
+  (setq cdlatex-math-symbol-alist
+        '((76 ("\\Lambda" "\\varLambda"))))
 
   ;; google-translate
   (setq google-translate-backend-method 'curl)
