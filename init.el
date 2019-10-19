@@ -83,6 +83,7 @@ This function should only modify configuration layer settings."
    dotspacemacs-additional-packages
    '(
      cdlatex
+     posframe
      )
 
    ;; A list of packages that cannot be updated.
@@ -526,7 +527,7 @@ before packages are loaded."
   (global-set-key (kbd "H-f") 'spacemacs/helm-buffers-smart-do-search)
 
   ;; chinese
-  (setq pyim-page-tooltip nil)
+  (setq pyim-page-tooltip 'posframe)
   (setq pyim-fuzzy-pinyin-alist nil)
   (setq-default pyim-english-input-switch-functions
                 '(pyim-probe-program-mode
@@ -572,6 +573,9 @@ before packages are loaded."
           (98 "\\bm" nil t nil nil)))
   (setq cdlatex-math-symbol-alist
         '((76 ("\\Lambda" "\\varLambda"))))
+
+  ;; pdf
+  (setq pdf-view-use-scaling t)
 
   ;; google-translate
   (setq google-translate-backend-method 'curl)
