@@ -528,11 +528,21 @@ before packages are loaded."
 
   ;; chinese
   (setq pyim-page-tooltip 'posframe)
-  (setq pyim-fuzzy-pinyin-alist nil)
+  (pyim-isearch-mode 1)
   (setq-default pyim-english-input-switch-functions
                 '(pyim-probe-program-mode
                   pyim-probe-dynamic-english))
   (global-set-key (kbd "M-j") 'pyim-convert-string-at-point)
+  (global-set-key (kbd "M-n") 'pyim-forward-word)
+  (global-set-key (kbd "M-p") 'pyim-backward-word)
+
+  (use-package liberime
+    :load-path "~/Developer/Rime/liberime/build"
+    :config
+    (liberime-start (expand-file-name "/Library/Input Methods/Squirrel.app/Contents/SharedSupport")
+                    (expand-file-name "~/.emacs.d/private/pyim/rime/"))
+    (liberime-select-schema "luna_pinyin_simp")
+    (setq pyim-default-scheme 'rime-quanpin))
 
   (global-pangu-spacing-mode t)
   (setq pangu-spacing-real-insert-separtor t)
