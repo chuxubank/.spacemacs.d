@@ -42,6 +42,7 @@ This function should only modify configuration layer settings."
                       auto-completion-enable-snippets-in-popup t
                       auto-completion-enable-sort-by-usage t
                       auto-completion-enable-help-tooltip t
+                      auto-completion-use-company-box t
                       spacemacs-default-company-backends '(company-tabnine
                                                            company-capf
                                                            company-semantic company-dabbrev-code company-gtags company-etags company-keywords company-files company-dabbrev)
