@@ -43,6 +43,7 @@ This function should only modify configuration layer settings."
                       auto-completion-enable-sort-by-usage t
                       auto-completion-enable-help-tooltip t
                       auto-completion-use-company-box t
+                      auto-completion-tab-key-behavior nil
                       spacemacs-default-company-backends '(company-tabnine
                                                            company-capf
                                                            company-semantic company-dabbrev-code company-gtags company-etags company-keywords company-files company-dabbrev)
@@ -90,6 +91,7 @@ This function should only modify configuration layer settings."
      cdlatex
      posframe
      company-tabnine
+     doom-themes
      )
 
    ;; A list of packages that cannot be updated.
@@ -218,6 +220,7 @@ It should only modify the values of Spacemacs settings."
    ;; Press `SPC T n' to cycle to the next theme in the list (works great
    ;; with 2 themes variants, one dark and one light)
    dotspacemacs-themes '(
+                         doom-dracula
                          spacemacs-dark
                          spacemacs-light
                          )
@@ -486,8 +489,7 @@ This function is called immediately after `dotspacemacs/init', before layer
 configuration.
 It is mostly for variables that should be set before packages are loaded.
 If you are unsure, try setting them in `dotspacemacs/user-config' first."
-  ;; ui
-  (define-key global-map [menu-bar edit] nil)
+  ;; menu-bar
   (define-key global-map [menu-bar options] nil)
 
   ;; archives
@@ -525,18 +527,20 @@ This function is called at the very end of Spacemacs startup, after layer
 configuration.
 Put your configuration code here, except for variables that should be set
 before packages are loaded."
+  ;; theme
+  (setq doom-themes-treemacs-theme "doom-atom")
+  ;; (doom-themes-treemacs-config)
+  (doom-themes-org-config)
+
   ;; edit
   (setq-default word-wrap t)
-
-  ;; company
-  (require 'company-tabnine)
-  (add-to-list 'company-backends #'company-tabnine)
 
   ;; osx
   (global-set-key (kbd "H-k") 'kill-this-buffer)
   (global-set-key (kbd "H-f") 'spacemacs/helm-buffers-smart-do-search)
 
   ;; chinese
+  (setq pyim-default-scheme 'rime-quanpin)
   (setq pyim-page-tooltip 'posframe)
   (setq-default pyim-english-input-switch-functions
                 '(pyim-probe-program-mode
@@ -546,12 +550,13 @@ before packages are loaded."
   (global-set-key (kbd "M-p") 'pyim-backward-word)
 
   (use-package liberime
+    :if (eq 'pinyin chinese-default-input-method)
     :load-path "~/Developer/Rime/liberime/build"
     :config
     (liberime-start (expand-file-name "/Library/Input Methods/Squirrel.app/Contents/SharedSupport")
-                    (expand-file-name "~/.emacs.d/private/pyim/rime/"))
+                    (expand-file-name "pyim/rime/" spacemacs-private-directory))
     (liberime-select-schema "luna_pinyin_simp")
-    (setq pyim-default-scheme 'rime-quanpin))
+    )
 
   (global-pangu-spacing-mode t)
   (setq pangu-spacing-real-insert-separtor t)
