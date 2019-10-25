@@ -41,7 +41,11 @@ This function should only modify configuration layer settings."
      (auto-completion :variables
                       auto-completion-enable-snippets-in-popup t
                       auto-completion-enable-sort-by-usage t
-                      auto-completion-enable-help-tooltip t)
+                      auto-completion-enable-help-tooltip t
+                      spacemacs-default-company-backends '(company-tabnine
+                                                           company-capf
+                                                           company-semantic company-dabbrev-code company-gtags company-etags company-keywords company-files company-dabbrev)
+                      )
      better-defaults
      (c-c++ :variables
             c-c++-enable-clang-support t
@@ -84,6 +88,7 @@ This function should only modify configuration layer settings."
    '(
      cdlatex
      posframe
+     company-tabnine
      )
 
    ;; A list of packages that cannot be updated.
@@ -522,16 +527,19 @@ before packages are loaded."
   ;; edit
   (setq-default word-wrap t)
 
+  ;; company
+  (require 'company-tabnine)
+  (add-to-list 'company-backends #'company-tabnine)
+
   ;; osx
   (global-set-key (kbd "H-k") 'kill-this-buffer)
   (global-set-key (kbd "H-f") 'spacemacs/helm-buffers-smart-do-search)
 
   ;; chinese
   (setq pyim-page-tooltip 'posframe)
-  (pyim-isearch-mode 1)
   (setq-default pyim-english-input-switch-functions
                 '(pyim-probe-program-mode
-                  pyim-probe-dynamic-english))
+                  pyim-probe-auto-english))
   (global-set-key (kbd "M-j") 'pyim-convert-string-at-point)
   (global-set-key (kbd "M-n") 'pyim-forward-word)
   (global-set-key (kbd "M-p") 'pyim-backward-word)
