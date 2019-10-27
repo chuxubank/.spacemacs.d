@@ -45,7 +45,6 @@ This function should only modify configuration layer settings."
                       auto-completion-use-company-box t
                       auto-completion-tab-key-behavior nil
                       spacemacs-default-company-backends '(company-tabnine
-                                                           company-capf
                                                            company-semantic company-dabbrev-code company-gtags company-etags company-keywords company-files company-dabbrev)
                       )
      better-defaults
@@ -61,15 +60,19 @@ This function should only modify configuration layer settings."
      git
      github
      helm
+     (html :variables
+           web-fmt-tool 'prettier)
      (latex :variables
             latex-enable-auto-fill t
             latex-enable-folding t)
      markdown
      myleetcode
      (org :variables
-          org-enable-bootstrap-support t)
+          org-enable-bootstrap-support t
+          org-enable-reveal-js-support t)
      osx
      pdf
+     prettier
      python
      (shell :variables
             shell-default-height 30
@@ -98,10 +101,8 @@ This function should only modify configuration layer settings."
    dotspacemacs-frozen-packages '()
 
    ;; A list of packages that will not be installed and loaded.
-   dotspacemacs-excluded-packages
-   '(
-     vi-tilde-fringe
-     )
+   dotspacemacs-excluded-packages '()
+
    ;; Defines the behaviour of Spacemacs when installing packages.
    ;; Possible values are `used-only', `used-but-keep-unused' and `all'.
    ;; `used-only' installs only explicitly used packages and deletes any unused
@@ -562,6 +563,8 @@ before packages are loaded."
   (setq pangu-spacing-real-insert-separtor t)
 
   ;; org
+  (setq org-bullets-bullet-list '("■" "◆" "▲" "▶"))
+  (setq spaceline-org-clock-p t)
   (setq org-preview-latex-default-process 'dvisvgm)
   (setq org-latex-compiler "xelatex")
   (setq org-preview-latex-process-alist
