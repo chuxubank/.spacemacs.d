@@ -44,10 +44,9 @@ This function should only modify configuration layer settings."
                       auto-completion-enable-help-tooltip t
                       auto-completion-use-company-box t
                       auto-completion-tab-key-behavior nil
-                      spacemacs-default-company-backends '(company-tabnine
-                                                           company-semantic company-dabbrev-code company-gtags company-etags company-keywords company-files company-dabbrev)
                       )
      better-defaults
+     bibtex
      (c-c++ :variables
             c-c++-enable-clang-support t
             c-c++-default-mode-for-headers 'c++-mode)
@@ -74,12 +73,11 @@ This function should only modify configuration layer settings."
      pdf
      prettier
      python
-     (shell :variables
-            shell-default-height 30
-            shell-default-position 'bottom)
+     shell
      syntax-checking
      treemacs
      version-control
+     vim-empty-lines
      )
 
    ;; List of additional packages that will be installed without being
@@ -93,7 +91,6 @@ This function should only modify configuration layer settings."
    '(
      cdlatex
      posframe
-     company-tabnine
      doom-themes
      )
 
@@ -547,8 +544,6 @@ before packages are loaded."
                 '(pyim-probe-program-mode
                   pyim-probe-auto-english))
   (global-set-key (kbd "M-j") 'pyim-convert-string-at-point)
-  (global-set-key (kbd "M-n") 'pyim-forward-word)
-  (global-set-key (kbd "M-p") 'pyim-backward-word)
 
   (use-package liberime
     :if (eq 'pinyin chinese-default-input-method)
@@ -565,6 +560,9 @@ before packages are loaded."
   ;; org
   (setq org-bullets-bullet-list '("■" "◆" "▲" "▶"))
   (setq spaceline-org-clock-p t)
+  (setq org-startup-align-all-tables t)
+  (setq org-startup-with-inline-images t)
+  (setq org-export-with-toc nil)
   (setq org-preview-latex-default-process 'dvisvgm)
   (setq org-latex-compiler "xelatex")
   (setq org-preview-latex-process-alist
@@ -578,11 +576,27 @@ before packages are loaded."
                    :latex-compiler ("xelatex -no-pdf -interaction nonstopmode -output-directory %o %f")
                    :image-converter ("dvisvgm %f -n -b min -c %S -o %O"))))
   (setq org-startup-indented t)
-  (add-hook 'org-mode-hook 'turn-on-org-cdlatex)
   (setq org-agenda-files '("~/org"))
+  (setq org-image-actual-width '(500))
+  (setq org-latex-image-default-width ".6\\linewidth")
+  (add-hook 'org-mode-hook 'smartparens-mode)
+  (add-hook 'org-mode-hook
+            (lambda ()
+              (show-smartparens-mode -1)))
+  (add-hook 'org-mode-hook 'turn-on-org-cdlatex)
+  (add-hook 'org-load-hook
+            (lambda ()
+              (define-key org-mode-map "\M-n" 'org-next-link)
+              (define-key org-mode-map "\M-p" 'org-previous-link)))
+
+  ;; smartparens
+  (require 'smartparens-config)
+  (sp-local-pair 'org-mode "$" "$")
+  (sp-local-pair 'org-mode "\\[" "\\]")
 
   ;; latex
   (add-hook 'LaTeX-mode-hook 'turn-on-cdlatex)
+  (add-hook 'doc-view-mode-hook 'auto-revert-mode)
 
   ;; cdlatex
   (setq cdlatex-env-alist
