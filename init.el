@@ -540,10 +540,12 @@ before packages are loaded."
   (global-set-key (kbd "H-f") 'spacemacs/helm-buffers-smart-do-search)
 
   ;; chinese
+  (pyim-isearch-mode 1)
   (setq pyim-default-scheme 'rime-quanpin)
   (setq pyim-page-tooltip 'posframe)
   (setq-default pyim-english-input-switch-functions
                 '(pyim-probe-program-mode
+                  pyim-probe-isearch-mode
                   pyim-probe-auto-english))
   (global-set-key (kbd "M-j") 'pyim-convert-string-at-point)
 
@@ -588,14 +590,12 @@ before packages are loaded."
               (show-smartparens-mode -1)
               (sp-local-pair 'org-mode "=" "=" :actions '(:rem insert))
               (sp-local-pair 'org-mode "$" "$")
-              (sp-local-pair 'org-mode "\\[" "\\]")
-              ))
+              (sp-local-pair 'org-mode "\\[" "\\]")))
   (add-hook 'org-mode-hook 'turn-on-org-cdlatex)
   (add-hook 'org-load-hook
             (lambda ()
               (define-key org-mode-map "\M-n" 'org-next-link)
-              (define-key org-mode-map "\M-p" 'org-previous-link)
-              ))
+              (define-key org-mode-map "\M-p" 'org-previous-link)))
 
   ;; latex
   (add-hook 'LaTeX-mode-hook 'turn-on-cdlatex)
@@ -608,7 +608,7 @@ before packages are loaded."
           ("theorem" "\\begin{theorem}\n?\n\\end{theorem}" nil)
           ("cases" "\\begin{cases}\n? & ,\\\\\n & .\n\\end{cases}" nil)))
   (setq cdlatex-command-alist
-        '(("eq*" "Insert equation* env"   "" cdlatex-environment ("equation*") t nil)
+        '(("equ*" "Insert equation* env"   "" cdlatex-environment ("equation*") t nil)
           ("def" "Insert definition env"   "" cdlatex-environment ("definition") t nil)
           ("thr" "Insert theorem env"   "" cdlatex-environment ("theorem") t nil)
           ("cas" "Insert cases env"   "" cdlatex-environment ("cases") t nil)))
@@ -620,6 +620,9 @@ before packages are loaded."
 
   ;; pdf
   (setq pdf-view-use-scaling t)
+  (add-hook 'pdf-view-mode-hook
+            (lambda ()
+              (pyim-isearch-mode -1)))
 
   ;; google-translate
   (setq google-translate-backend-method 'curl)
