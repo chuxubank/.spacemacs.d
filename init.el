@@ -487,7 +487,7 @@ This function is called immediately after `dotspacemacs/init', before layer
 configuration.
 It is mostly for variables that should be set before packages are loaded.
 If you are unsure, try setting them in `dotspacemacs/user-config' first."
-  ;; menu-bar
+  ;; menu bar
   (define-key global-map [menu-bar options] nil)
 
   ;; archives
@@ -534,7 +534,9 @@ before packages are loaded."
   (setq-default word-wrap t)
 
   ;; osx
-  (global-set-key (kbd "H-k") 'kill-this-buffer)
+  (global-set-key (kbd "H-d") 'kill-this-buffer)
+  (global-set-key (kbd "H-j") 'next-buffer)
+  (global-set-key (kbd "H-k") 'previous-buffer)
   (global-set-key (kbd "H-f") 'spacemacs/helm-buffers-smart-do-search)
 
   ;; chinese
@@ -579,20 +581,21 @@ before packages are loaded."
   (setq org-agenda-files '("~/org"))
   (setq org-image-actual-width '(500))
   (setq org-latex-image-default-width ".6\\linewidth")
-  (add-hook 'org-mode-hook 'smartparens-mode)
+
   (add-hook 'org-mode-hook
             (lambda ()
-              (show-smartparens-mode -1)))
+              (smartparens-mode 1)
+              (show-smartparens-mode -1)
+              (sp-local-pair 'org-mode "=" "=" :actions '(:rem insert))
+              (sp-local-pair 'org-mode "$" "$")
+              (sp-local-pair 'org-mode "\\[" "\\]")
+              ))
   (add-hook 'org-mode-hook 'turn-on-org-cdlatex)
   (add-hook 'org-load-hook
             (lambda ()
               (define-key org-mode-map "\M-n" 'org-next-link)
-              (define-key org-mode-map "\M-p" 'org-previous-link)))
-
-  ;; smartparens
-  (require 'smartparens-config)
-  (sp-local-pair 'org-mode "$" "$")
-  (sp-local-pair 'org-mode "\\[" "\\]")
+              (define-key org-mode-map "\M-p" 'org-previous-link)
+              ))
 
   ;; latex
   (add-hook 'LaTeX-mode-hook 'turn-on-cdlatex)
