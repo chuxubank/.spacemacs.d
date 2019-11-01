@@ -534,7 +534,7 @@ before packages are loaded."
   (setq-default word-wrap t)
 
   ;; osx
-  (global-set-key (kbd "H-d") 'kill-this-buffer)
+  (global-set-key (kbd "H-w") 'kill-this-buffer)
   (global-set-key (kbd "H-j") 'next-buffer)
   (global-set-key (kbd "H-k") 'previous-buffer)
   (global-set-key (kbd "H-f") 'spacemacs/helm-buffers-smart-do-search)
@@ -543,10 +543,19 @@ before packages are loaded."
   (pyim-isearch-mode 1)
   (setq pyim-default-scheme 'rime-quanpin)
   (setq pyim-page-tooltip 'posframe)
+
   (setq-default pyim-english-input-switch-functions
                 '(pyim-probe-program-mode
                   pyim-probe-isearch-mode
-                  pyim-probe-auto-english))
+                  pyim-probe-auto-english
+                  helm--alive-p
+                  pyim-probe-org-latex-mode))
+  (defun pyim-probe-org-latex-mode ()
+    (when (eq major-mode 'org-mode)
+      (or
+       (not (eq (org-inside-LaTeX-fragment-p) nil))
+       (not (eq (org-inside-latex-macro-p) nil)))))
+
   (global-set-key (kbd "M-j") 'pyim-convert-string-at-point)
 
   (use-package liberime
