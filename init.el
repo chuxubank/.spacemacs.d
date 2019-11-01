@@ -92,6 +92,7 @@ This function should only modify configuration layer settings."
      cdlatex
      posframe
      doom-themes
+     company-tabnine
      )
 
    ;; A list of packages that cannot be updated.
@@ -529,6 +530,7 @@ before packages are loaded."
   (setq doom-themes-treemacs-theme "doom-atom")
   ;; (doom-themes-treemacs-config)
   (doom-themes-org-config)
+  (setq spaceline-info-mode t)
 
   ;; edit
   (setq-default word-wrap t)
@@ -573,11 +575,18 @@ before packages are loaded."
   ;; org
   (setq org-bullets-bullet-list '("■" "◆" "▲" "▶"))
   (setq spaceline-org-clock-p t)
+  (setq org-startup-indented t)
   (setq org-startup-align-all-tables t)
   (setq org-startup-with-inline-images t)
+  (setq org-image-actual-width '(500))
+  (setq org-agenda-files '("~/org"))
+
   (setq org-export-with-toc nil)
-  (setq org-preview-latex-default-process 'dvisvgm)
   (setq org-latex-compiler "xelatex")
+  (setq org-latex-packages-alist
+        '(("" "ctex" t ("xelatex"))
+          ("left=2.5cm, right=2.5cm, top=2cm, bottom=2cm" "geometry" t ("xelatex"))))
+  (setq org-preview-latex-default-process 'dvisvgm)
   (setq org-preview-latex-process-alist
         '((dvisvgm :programs ("xelatex" "dvisvgm")
                    :description "xdv > svg"
@@ -588,9 +597,6 @@ before packages are loaded."
                    :image-size-adjust (1.7 . 1.5)
                    :latex-compiler ("xelatex -no-pdf -interaction nonstopmode -output-directory %o %f")
                    :image-converter ("dvisvgm %f -n -b min -c %S -o %O"))))
-  (setq org-startup-indented t)
-  (setq org-agenda-files '("~/org"))
-  (setq org-image-actual-width '(500))
   (setq org-latex-image-default-width ".6\\linewidth")
 
   (add-hook 'org-mode-hook
@@ -598,6 +604,7 @@ before packages are loaded."
               (smartparens-mode 1)
               (show-smartparens-mode -1)
               (sp-local-pair 'org-mode "=" "=" :actions '(:rem insert))
+              (sp-local-pair 'org-mode "/" "/" :actions '(:rem insert))
               (sp-local-pair 'org-mode "$" "$")
               (sp-local-pair 'org-mode "\\[" "\\]")))
   (add-hook 'org-mode-hook 'turn-on-org-cdlatex)
@@ -605,6 +612,8 @@ before packages are loaded."
             (lambda ()
               (define-key org-mode-map "\M-n" 'org-next-link)
               (define-key org-mode-map "\M-p" 'org-previous-link)))
+
+  (spacemacs|add-company-backends :backends company-tabnine :modes org-mode)
 
   ;; latex
   (add-hook 'LaTeX-mode-hook 'turn-on-cdlatex)
@@ -660,13 +669,26 @@ This function is called at the very end of Spacemacs initialization."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(evil-want-Y-yank-to-eol nil)
+ '(org-latex-default-packages-alist
+   (quote
+    (("AUTO" "inputenc" t
+      ("pdflatex"))
+     ("T1" "fontenc" t
+      ("pdflatex"))
+     ("" "graphicx" t nil)
+     ("" "grffile" t nil)
+     ("" "longtable" nil nil)
+     ("" "wrapfig" nil nil)
+     ("" "rotating" nil nil)
+     ("normalem" "ulem" t nil)
+     ("" "amsmath" t nil)
+     ("" "textcomp" t nil)
+     ("" "amssymb" t nil)
+     ("" "capt-of" nil nil)
+     ("colorlinks=true" "hyperref" nil nil))))
  '(org-modules
    (quote
-    (org-bbdb org-bibtex org-docview org-eww org-gnus org-info org-irc org-mhe org-rmail org-w3m org-drill org-learn org-habit)))
- '(pyim-dicts
-   (quote
-    ((:name "bigdict" :file "/Users/misaka/Nutstore Files/Nutstore/pyim-bigdict.pyim")))))
+    (org-bbdb org-bibtex org-docview org-eww org-gnus org-info org-irc org-mhe org-rmail org-w3m org-drill org-learn org-habit))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
