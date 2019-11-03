@@ -585,6 +585,8 @@ before packages are loaded."
   (setq org-latex-compiler "xelatex")
   (setq org-latex-packages-alist
         '(("" "ctex" t ("xelatex"))
+          ("" "fontspec" t ("xelatex"))
+          ("" "enumitem" t ("xelatex"))
           ("left=2.5cm, right=2.5cm, top=2cm, bottom=2cm" "geometry" t ("xelatex"))))
   (setq org-preview-latex-default-process 'dvisvgm)
   (setq org-preview-latex-process-alist
@@ -598,6 +600,8 @@ before packages are loaded."
                    :latex-compiler ("xelatex -no-pdf -interaction nonstopmode -output-directory %o %f")
                    :image-converter ("dvisvgm %f -n -b min -c %S -o %O"))))
   (setq org-latex-image-default-width ".6\\linewidth")
+
+  (setq org-drill-save-buffers-after-drill-sessions-p t)
 
   (add-hook 'org-mode-hook
             (lambda ()
