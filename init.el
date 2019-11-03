@@ -550,13 +550,8 @@ before packages are loaded."
                 '(pyim-probe-program-mode
                   pyim-probe-isearch-mode
                   pyim-probe-auto-english
-                  helm--alive-p
-                  pyim-probe-org-latex-mode))
-  (defun pyim-probe-org-latex-mode ()
-    (when (eq major-mode 'org-mode)
-      (or
-       (not (eq (org-inside-LaTeX-fragment-p) nil))
-       (not (eq (org-inside-latex-macro-p) nil)))))
+                  pyim-probe-org-latex-mode
+                  helm--alive-p))
 
   (global-set-key (kbd "M-j") 'pyim-convert-string-at-point)
 
