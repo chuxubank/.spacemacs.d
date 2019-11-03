@@ -71,6 +71,7 @@ This function should only modify configuration layer settings."
           org-enable-reveal-js-support t)
      osx
      pdf
+     plantuml
      prettier
      python
      shell
@@ -189,7 +190,7 @@ It should only modify the values of Spacemacs settings."
    ;; directory. A string value must be a path to an image format supported
    ;; by your Emacs build.
    ;; If the value is nil then no banner is displayed. (default 'official)
-   dotspacemacs-startup-banner 'official
+   dotspacemacs-startup-banner 'random
 
    ;; List of items to show in startup buffer or an association list of
    ;; the form `(list-type . list-size)`. If nil then it is disabled.
@@ -527,10 +528,10 @@ configuration.
 Put your configuration code here, except for variables that should be set
 before packages are loaded."
   ;; theme
-  (setq doom-themes-treemacs-theme "doom-atom")
-  ;; (doom-themes-treemacs-config)
+  (setq doom-themes-treemacs-theme "doom-colors")
+  (doom-themes-treemacs-config)
   (doom-themes-org-config)
-  (setq spaceline-info-mode t)
+  (setq doom-themes-treemacs-enable-variable-pitch nil)
 
   ;; edit
   (setq-default word-wrap t)
@@ -617,6 +618,10 @@ before packages are loaded."
   ;; latex
   (add-hook 'LaTeX-mode-hook 'turn-on-cdlatex)
   (add-hook 'doc-view-mode-hook 'auto-revert-mode)
+
+  ;; plantuml
+  (setq plantuml-jar-path (expand-file-name "plantuml" spacemacs-private-directory))
+  (setq org-plantuml-jar-path (expand-file-name "plantuml" spacemacs-private-directory))
 
   ;; cdlatex
   (setq cdlatex-env-alist
