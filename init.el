@@ -622,6 +622,10 @@ before packages are loaded."
     (not (string= lang "plantuml")))
   (setq org-confirm-babel-evaluate #'my-org-confirm-babel-evaluate)
 
+  (with-eval-after-load 'ob-plantuml
+    (add-to-list 'org-babel-default-header-args:plantuml
+                 '(:cmdline . "-charset utf-8")))
+
   ;; cdlatex
   (add-hook 'org-mode-hook 'turn-on-org-cdlatex)
   (add-hook 'LaTeX-mode-hook 'turn-on-cdlatex)
