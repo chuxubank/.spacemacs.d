@@ -372,7 +372,7 @@ It should only modify the values of Spacemacs settings."
    ;; If non-nil smooth scrolling (native-scrolling) is enabled. Smooth
    ;; scrolling overrides the default behavior of Emacs which recenters point
    ;; when it reaches the top or bottom of the screen. (default t)
-   dotspacemacs-smooth-scrolling t
+   dotspacemacs-smooth-scrolling nil
 
    ;; Control line numbers activation.
    ;; If set to `t', `relative' or `visual' then line numbers are enabled in all
@@ -584,6 +584,7 @@ before packages are loaded."
           ("" "fontspec" t ("xelatex"))
           ("" "enumitem" t ("xelatex"))
           ("left=2.5cm, right=2.5cm, top=2cm, bottom=2cm" "geometry" t ("xelatex"))))
+  (setq org-latex-image-default-width ".6\\linewidth")
   (setq org-preview-latex-default-process 'dvisvgm)
   (setq org-preview-latex-process-alist
         '((dvisvgm :programs ("xelatex" "dvisvgm")
@@ -595,7 +596,6 @@ before packages are loaded."
                    :image-size-adjust (1.7 . 1.5)
                    :latex-compiler ("xelatex -no-pdf -interaction nonstopmode -output-directory %o %f")
                    :image-converter ("dvisvgm %f -n -b min -c %S -o %O"))))
-  (setq org-latex-image-default-width ".6\\linewidth")
 
   (setq org-drill-save-buffers-after-drill-sessions-p t)
 
@@ -607,7 +607,6 @@ before packages are loaded."
               (sp-local-pair 'org-mode "/" "/" :actions '(:rem insert))
               (sp-local-pair 'org-mode "$" "$")
               (sp-local-pair 'org-mode "\\[" "\\]")))
-  (add-hook 'org-mode-hook 'turn-on-org-cdlatex)
   (add-hook 'org-load-hook
             (lambda ()
               (define-key org-mode-map "\M-n" 'org-next-link)
@@ -615,30 +614,31 @@ before packages are loaded."
 
   (spacemacs|add-company-backends :backends company-tabnine :modes org-mode)
 
-  ;; latex
-  (add-hook 'LaTeX-mode-hook 'turn-on-cdlatex)
-  (add-hook 'doc-view-mode-hook 'auto-revert-mode)
-
   ;; plantuml
-  (setq plantuml-jar-path (expand-file-name "plantuml" spacemacs-private-directory))
-  (setq org-plantuml-jar-path (expand-file-name "plantuml" spacemacs-private-directory))
+  (setq plantuml-jar-path (expand-file-name "plantuml/plantuml.jar" spacemacs-private-directory))
+  (setq org-plantuml-jar-path (expand-file-name "plantuml/plantuml.jar" spacemacs-private-directory))
+
+  (defun my-org-confirm-babel-evaluate (lang body)
+    (not (string= lang "plantuml")))
+  (setq org-confirm-babel-evaluate #'my-org-confirm-babel-evaluate)
 
   ;; cdlatex
+  (add-hook 'org-mode-hook 'turn-on-org-cdlatex)
+  (add-hook 'LaTeX-mode-hook 'turn-on-cdlatex)
   (setq cdlatex-env-alist
         '(("equation*" "\\begin{equation*}\n?\n\\end{equation*}" nil)
-          ("definition" "\\begin{definition}\n?\n\\end{definition}" nil)
-          ("theorem" "\\begin{theorem}\n?\n\\end{theorem}" nil)
           ("cases" "\\begin{cases}\n? & ,\\\\\n & .\n\\end{cases}" nil)))
   (setq cdlatex-command-alist
         '(("equ*" "Insert equation* env"   "" cdlatex-environment ("equation*") t nil)
-          ("def" "Insert definition env"   "" cdlatex-environment ("definition") t nil)
-          ("thr" "Insert theorem env"   "" cdlatex-environment ("theorem") t nil)
           ("cas" "Insert cases env"   "" cdlatex-environment ("cases") t nil)))
   (setq cdlatex-math-modify-alist
         '((86 "\\vb*" nil t nil nil)
           (98 "\\bm" nil t nil nil)))
   (setq cdlatex-math-symbol-alist
         '((76 ("\\Lambda" "\\varLambda"))))
+
+  ;; latex
+  (add-hook 'doc-view-mode-hook 'auto-revert-mode)
 
   ;; pdf
   (setq pdf-view-use-scaling t)
