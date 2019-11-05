@@ -9,7 +9,7 @@ This function should only modify configuration layer settings."
    ;; Base distribution to use. This is a layer contained in the directory
    ;; `+distribution'. For now available distributions are `spacemacs-base'
    ;; or `spacemacs'. (default 'spacemacs)
-   dotspacemacs-distribution 'spacemacs
+   dotspacemacs-distribution 'spacemacs-base
 
    ;; Lazy installation of layers (i.e. layers are installed only when a file
    ;; with a supported type is opened). Possible values are `all', `unused'
@@ -38,24 +38,22 @@ This function should only modify configuration layer settings."
      ;; Uncomment some layer names and press `SPC f e R' (Vim style) or
      ;; `M-m f e R' (Emacs style) to install them.
      ;; ----------------------------------------------------------------
+     spacemacs-editing
+     spacemacs-navigation
+     spacemacs-project
      (auto-completion :variables
                       auto-completion-enable-snippets-in-popup t
                       auto-completion-enable-sort-by-usage t
                       auto-completion-enable-help-tooltip t
                       auto-completion-use-company-box t
-                      auto-completion-tab-key-behavior nil
-                      )
+                      auto-completion-tab-key-behavior nil)
      better-defaults
      bibtex
      (c-c++ :variables
             c-c++-enable-clang-support t
             c-c++-default-mode-for-headers 'c++-mode)
      chinese
-     (colors :variables
-             colors-enable-nyan-cat-progress-bar t)
      emacs-lisp
-     (geolocation :variables
-                  geolocation-enable-automatic-theme-changer nil)
      git
      github
      helm
@@ -65,7 +63,7 @@ This function should only modify configuration layer settings."
             latex-enable-auto-fill t
             latex-enable-folding t)
      markdown
-     myleetcode
+     multiple-cursors
      (org :variables
           org-enable-bootstrap-support t
           org-enable-reveal-js-support t)
@@ -74,11 +72,8 @@ This function should only modify configuration layer settings."
      plantuml
      prettier
      python
-     shell
      syntax-checking
-     treemacs
      version-control
-     vim-empty-lines
      )
 
    ;; List of additional packages that will be installed without being
@@ -91,9 +86,12 @@ This function should only modify configuration layer settings."
    dotspacemacs-additional-packages
    '(
      cdlatex
-     posframe
-     doom-themes
      company-tabnine
+     doom-modeline
+     doom-themes
+     leetcode
+     nyan-mode
+     posframe
      )
 
    ;; A list of packages that cannot be updated.
@@ -232,7 +230,7 @@ It should only modify the values of Spacemacs settings."
    ;; refer to the DOCUMENTATION.org for more info on how to create your own
    ;; spaceline theme. Value can be a symbol or list with additional properties.
    ;; (default '(spacemacs :separator wave :separator-scale 1.5))
-   dotspacemacs-mode-line-theme '(spacemacs :separator wave :separator-scale 1.5)
+   dotspacemacs-mode-line-theme '(doom)
 
    ;; If non-nil the cursor color matches the state color in GUI Emacs.
    ;; (default t)
@@ -528,10 +526,9 @@ configuration.
 Put your configuration code here, except for variables that should be set
 before packages are loaded."
   ;; theme
-  (setq doom-themes-treemacs-theme "doom-colors")
-  (doom-themes-treemacs-config)
   (doom-themes-org-config)
-  (setq doom-themes-treemacs-enable-variable-pitch nil)
+  (doom-modeline-mode 1)
+  (nyan-mode 1)
 
   ;; edit
   (setq-default word-wrap t)
@@ -597,7 +594,7 @@ before packages are loaded."
                    :latex-compiler ("xelatex -no-pdf -interaction nonstopmode -output-directory %o %f")
                    :image-converter ("dvisvgm %f -n -b min -c %S -o %O"))))
 
-  (setq org-drill-save-buffers-after-drill-sessions-p t)
+  (setq org-drill-save-buffers-after-drill-sessions-p nil)
 
   (add-hook 'org-mode-hook
             (lambda ()
@@ -658,11 +655,6 @@ before packages are loaded."
 
   ;; leetcode
   (setq leetcode-prefer-language "cpp")
-
-  ;; geolocation
-  (setq calendar-location-name "Shanghai"
-        calendar-latitude 31.09
-        calendar-longitude 121.26)
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
