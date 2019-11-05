@@ -39,6 +39,7 @@ This function should only modify configuration layer settings."
      ;; `M-m f e R' (Emacs style) to install them.
      ;; ----------------------------------------------------------------
      spacemacs-editing
+     spacemacs-layouts
      spacemacs-navigation
      spacemacs-project
      (auto-completion :variables
@@ -59,6 +60,7 @@ This function should only modify configuration layer settings."
      helm
      (html :variables
            web-fmt-tool 'prettier)
+     ivy
      (latex :variables
             latex-enable-auto-fill t
             latex-enable-folding t)
@@ -73,7 +75,8 @@ This function should only modify configuration layer settings."
      prettier
      python
      syntax-checking
-     version-control
+     (version-control :variables
+                      version-control-diff-side 'left)
      )
 
    ;; List of additional packages that will be installed without being
@@ -537,7 +540,6 @@ before packages are loaded."
   (global-set-key (kbd "H-w") 'kill-this-buffer)
   (global-set-key (kbd "H-j") 'next-buffer)
   (global-set-key (kbd "H-k") 'previous-buffer)
-  (global-set-key (kbd "H-f") 'spacemacs/helm-buffers-smart-do-search)
 
   ;; chinese
   (pyim-isearch-mode 1)
