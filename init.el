@@ -535,6 +535,7 @@ before packages are loaded."
 
   ;; edit
   (setq-default word-wrap t)
+  (add-hook 'emacs-lisp-mode-hook #'aggressive-indent-mode)
 
   ;; osx
   (global-set-key (kbd "H-w") 'kill-this-buffer)
@@ -569,15 +570,14 @@ before packages are loaded."
 
   ;; org
   (setq org-bullets-bullet-list '("■" "◆" "▲" "▶"))
-  (setq spaceline-org-clock-p t)
+  (setq org-agenda-files '("~/org"))
   (setq org-startup-indented t)
   (setq org-startup-align-all-tables t)
   (setq org-startup-with-inline-images t)
   (setq org-image-actual-width '(500))
-  (setq org-agenda-files '("~/org"))
 
   (setq org-export-with-toc nil)
-  (setq org-latex-compiler "xelatex")
+  (setq org-latex-compiler "xelatex") ; should be remvoed if use dvipng
   (setq org-latex-packages-alist
         '(("" "ctex" t ("xelatex"))
           ("" "fontspec" t ("xelatex"))
@@ -585,16 +585,6 @@ before packages are loaded."
           ("left=2.5cm, right=2.5cm, top=2cm, bottom=2cm" "geometry" t ("xelatex"))))
   (setq org-latex-image-default-width ".6\\linewidth")
   (setq org-preview-latex-default-process 'dvisvgm)
-  (setq org-preview-latex-process-alist
-        '((dvisvgm :programs ("xelatex" "dvisvgm")
-                   :description "xdv > svg"
-                   :message "you need to install the programs: latex and dvisvgm."
-                   :use-xcolor t
-                   :image-input-type "xdv"
-                   :image-output-type "svg"
-                   :image-size-adjust (1.7 . 1.5)
-                   :latex-compiler ("xelatex -no-pdf -interaction nonstopmode -output-directory %o %f")
-                   :image-converter ("dvisvgm %f -n -b min -c %S -o %O"))))
 
   (setq org-drill-save-buffers-after-drill-sessions-p nil)
 
@@ -614,6 +604,8 @@ before packages are loaded."
   (spacemacs|add-company-backends :backends company-tabnine :modes org-mode)
 
   ;; plantuml
+  (setq plantuml-default-exec-mode 'executable)
+  (setq plantuml-executable-path "/usr/local/bin/plantuml")
   (setq plantuml-jar-path (expand-file-name "plantuml/plantuml.jar" spacemacs-private-directory))
   (setq org-plantuml-jar-path (expand-file-name "plantuml/plantuml.jar" spacemacs-private-directory))
 
@@ -666,35 +658,61 @@ before packages are loaded."
 This is an auto-generated function, do not modify its content directly, use
 Emacs customize menu instead.
 This function is called at the very end of Spacemacs initialization."
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(org-latex-default-packages-alist
-   (quote
-    (("AUTO" "inputenc" t
-      ("pdflatex"))
-     ("T1" "fontenc" t
-      ("pdflatex"))
-     ("" "graphicx" t nil)
-     ("" "grffile" t nil)
-     ("" "longtable" nil nil)
-     ("" "wrapfig" nil nil)
-     ("" "rotating" nil nil)
-     ("normalem" "ulem" t nil)
-     ("" "amsmath" t nil)
-     ("" "textcomp" t nil)
-     ("" "amssymb" t nil)
-     ("" "capt-of" nil nil)
-     ("colorlinks=true" "hyperref" nil nil))))
- '(org-modules
-   (quote
-    (org-bbdb org-bibtex org-docview org-eww org-gnus org-info org-irc org-mhe org-rmail org-w3m org-drill org-learn org-habit))))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
-)
+  (custom-set-variables
+   ;; custom-set-variables was added by Custom.
+   ;; If you edit it by hand, you could mess it up, so be careful.
+   ;; Your init file should contain only one such instance.
+   ;; If there is more than one, they won't work right.
+   '(org-latex-default-packages-alist
+     (quote
+      (("AUTO" "inputenc" t
+        ("pdflatex"))
+       ("T1" "fontenc" t
+        ("pdflatex"))
+       ("" "graphicx" t nil)
+       ("" "grffile" t nil)
+       ("" "longtable" nil nil)
+       ("" "wrapfig" nil nil)
+       ("" "rotating" nil nil)
+       ("normalem" "ulem" t nil)
+       ("" "amsmath" t nil)
+       ("" "textcomp" t nil)
+       ("" "amssymb" t nil)
+       ("" "capt-of" nil nil)
+       ("colorlinks=true" "hyperref" nil nil))))
+   '(org-modules
+     (quote
+      (org-bbdb org-bibtex org-docview org-eww org-gnus org-info org-irc org-mhe org-rmail org-w3m org-drill org-learn org-habit)))
+   '(org-preview-latex-process-alist
+     (quote
+      ((dvipng :programs
+               ("latex" "dvipng")
+               :description "dvi > png" :message "you need to install the programs: latex and dvipng." :image-input-type "dvi" :image-output-type "png" :image-size-adjust
+               (1.0 . 1.0)
+               :latex-compiler
+               ("latex -interaction nonstopmode -output-directory %o %f")
+               :image-converter
+               ("dvipng -D %D -T tight -o %O %f"))
+       (dvisvgm :programs
+                ("xelatex" "dvisvgm")
+                :description "xdv > svg" :message "you need to install the programs: xelatex and dvisvgm." :use-xcolor t :image-input-type "xdv" :image-output-type "svg" :image-size-adjust
+                (1.7 . 1.5)
+                :latex-compiler
+                ("xelatex -no-pdf -interaction nonstopmode -output-directory %o %f")
+                :image-converter
+                ("dvisvgm %f -n -b min -c %S -o %O"))
+       (imagemagick :programs
+                    ("latex" "convert")
+                    :description "pdf > png" :message "you need to install the programs: xelatex and imagemagick." :use-xcolor t :image-input-type "pdf" :image-output-type "png" :image-size-adjust
+                    (1.0 . 1.0)
+                    :latex-compiler
+                    ("xelatex -interaction nonstopmode -output-directory %o %f")
+                    :image-converter
+                    ("convert -density %D -trim -antialias %f -quality 100 %O"))))))
+  (custom-set-faces
+   ;; custom-set-faces was added by Custom.
+   ;; If you edit it by hand, you could mess it up, so be careful.
+   ;; Your init file should contain only one such instance.
+   ;; If there is more than one, they won't work right.
+   )
+  )
