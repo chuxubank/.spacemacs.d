@@ -576,7 +576,9 @@ before packages are loaded."
 
   (setq org-preview-latex-default-process 'dvisvgm)
   (setq org-export-in-background t)
-  (setq org-export-async-init-file "~/.spacemacs.d/org-async-init.el")
+  (setq org-export-async-init-file
+        (expand-file-name "org-async-init.el"
+                          (file-name-directory dotspacemacs-filepath)))
 
   (add-hook 'org-mode-hook
             (lambda ()

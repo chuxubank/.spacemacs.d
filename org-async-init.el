@@ -1,3 +1,5 @@
+(let ((default-directory  "~/.spacemacs/elpa/26.3/develop/"))
+  (normal-top-level-add-subdirs-to-load-path))
 (require 'package)
 (setq package-enable-at-startup nil)
 (package-initialize)
@@ -7,7 +9,9 @@
 (require 'ox-beamer)
 (require 'ox-latex)
 (require 'cl)
-(setq org-export-async-debug nil)
+(setq org-export-async-debug t)
+
+(require 'org-ref)
 
 (setq org-export-with-toc nil)
 (setq org-latex-compiler "xelatex")
