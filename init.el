@@ -57,7 +57,6 @@ This function should only modify configuration layer settings."
      emacs-lisp
      git
      github
-     helm
      (html :variables
            web-fmt-tool 'prettier)
      ivy
@@ -89,7 +88,6 @@ This function should only modify configuration layer settings."
    dotspacemacs-additional-packages
    '(
      cdlatex
-     company-tabnine
      doom-modeline
      doom-themes
      leetcode
@@ -576,17 +574,9 @@ before packages are loaded."
   (setq org-startup-with-inline-images t)
   (setq org-image-actual-width '(500))
 
-  (setq org-export-with-toc nil)
-  (setq org-latex-compiler "xelatex") ; should be remvoed if use dvipng
-  (setq org-latex-packages-alist
-        '(("" "ctex" t ("xelatex"))
-          ("" "fontspec" t ("xelatex"))
-          ("" "enumitem" t ("xelatex"))
-          ("left=2.5cm, right=2.5cm, top=2cm, bottom=2cm" "geometry" t ("xelatex"))))
-  (setq org-latex-image-default-width ".6\\linewidth")
   (setq org-preview-latex-default-process 'dvisvgm)
-
-  (setq org-drill-save-buffers-after-drill-sessions-p nil)
+  (setq org-export-in-background t)
+  (setq org-export-async-init-file "~/.spacemacs.d/org-async-init.el")
 
   (add-hook 'org-mode-hook
             (lambda ()
@@ -600,8 +590,6 @@ before packages are loaded."
             (lambda ()
               (define-key org-mode-map "\M-n" 'org-next-link)
               (define-key org-mode-map "\M-p" 'org-previous-link)))
-
-  (spacemacs|add-company-backends :backends company-tabnine :modes org-mode)
 
   ;; plantuml
   (setq plantuml-default-exec-mode 'executable)
@@ -663,23 +651,6 @@ This function is called at the very end of Spacemacs initialization."
    ;; If you edit it by hand, you could mess it up, so be careful.
    ;; Your init file should contain only one such instance.
    ;; If there is more than one, they won't work right.
-   '(org-latex-default-packages-alist
-     (quote
-      (("AUTO" "inputenc" t
-        ("pdflatex"))
-       ("T1" "fontenc" t
-        ("pdflatex"))
-       ("" "graphicx" t nil)
-       ("" "grffile" t nil)
-       ("" "longtable" nil nil)
-       ("" "wrapfig" nil nil)
-       ("" "rotating" nil nil)
-       ("normalem" "ulem" t nil)
-       ("" "amsmath" t nil)
-       ("" "textcomp" t nil)
-       ("" "amssymb" t nil)
-       ("" "capt-of" nil nil)
-       ("colorlinks=true" "hyperref" nil nil))))
    '(org-modules
      (quote
       (org-bbdb org-bibtex org-docview org-eww org-gnus org-info org-irc org-mhe org-rmail org-w3m org-drill org-learn org-habit)))
