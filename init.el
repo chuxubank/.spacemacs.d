@@ -576,12 +576,6 @@ before packages are loaded."
   (setq org-startup-with-inline-images t)
   (setq org-image-actual-width '(500))
 
-  (setq org-preview-latex-default-process 'dvisvgm)
-  (setq org-export-in-background t)
-  (setq org-export-async-init-file
-        (expand-file-name "org-async-init.el"
-                          (file-name-directory dotspacemacs-filepath)))
-
   (add-hook 'org-mode-hook
             (lambda ()
               (smartparens-mode 1)
@@ -595,7 +589,17 @@ before packages are loaded."
               (define-key org-mode-map "\M-n" 'org-next-link)
               (define-key org-mode-map "\M-p" 'org-previous-link)))
 
-  ;; org-publish
+  (setq org-preview-latex-default-process 'dvisvgm)
+  (setq org-export-async-init-file nil) ; spacemacs init
+  (setq org-export-with-toc nil)
+  (setq org-latex-compiler "xelatex")
+  (setq org-latex-packages-alist
+        '(("" "ctex" t ("xelatex"))
+          ("" "enumitem" t ("xelatex"))
+          ("left=2.5cm, right=2.5cm, top=2cm, bottom=2cm" "geometry" t ("xelatex"))))
+  (setq org-latex-image-default-width ".6\\linewidth")
+
+  ;; org publish
   (setq org-publish-project-alist
         '(("UNGEE"
            :base-directory "~/Developer/UNGEE"
@@ -603,16 +607,16 @@ before packages are loaded."
            :publishing-function org-latex-publish-to-pdf
            :recursive t)))
 
+  ;; org babel
+  (defun my-org-confirm-babel-evaluate (lang body)
+    (not (string= lang "plantuml")))
+  (setq org-confirm-babel-evaluate #'my-org-confirm-babel-evaluate)
+
   ;; plantuml
   (setq plantuml-default-exec-mode 'executable)
   (setq plantuml-executable-path "/usr/local/bin/plantuml")
   (setq plantuml-jar-path (expand-file-name "plantuml/plantuml.jar" spacemacs-private-directory))
   (setq org-plantuml-jar-path (expand-file-name "plantuml/plantuml.jar" spacemacs-private-directory))
-
-  (defun my-org-confirm-babel-evaluate (lang body)
-    (not (string= lang "plantuml")))
-  (setq org-confirm-babel-evaluate #'my-org-confirm-babel-evaluate)
-
   (with-eval-after-load 'ob-plantuml
     (add-to-list 'org-babel-default-header-args:plantuml
                  '(:cmdline . "-charset utf-8")))
@@ -667,6 +671,23 @@ This function is called at the very end of Spacemacs initialization."
    '(org-modules
      (quote
       (org-bbdb org-bibtex org-docview org-eww org-gnus org-info org-irc org-mhe org-rmail org-w3m org-drill org-learn org-habit)))
+   '(org-latex-default-packages-alist
+     (quote
+      (("AUTO" "inputenc" t
+        ("pdflatex"))
+       ("T1" "fontenc" t
+        ("pdflatex"))
+       ("" "graphicx" t nil)
+       ("" "grffile" t nil)
+       ("" "longtable" nil nil)
+       ("" "wrapfig" nil nil)
+       ("" "rotating" nil nil)
+       ("normalem" "ulem" t nil)
+       ("" "amsmath" t nil)
+       ("" "textcomp" t nil)
+       ("" "amssymb" t nil)
+       ("" "capt-of" nil nil)
+       ("colorlinks=true" "hyperref" nil nil))))
    '(org-preview-latex-process-alist
      (quote
       ((dvipng :programs
