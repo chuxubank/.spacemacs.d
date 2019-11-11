@@ -17,7 +17,6 @@
 (setq org-latex-compiler "xelatex")
 (setq org-latex-packages-alist
       '(("" "ctex" t ("xelatex"))
-        ("" "fontspec" t ("xelatex"))
         ("" "enumitem" t ("xelatex"))
         ("left=2.5cm, right=2.5cm, top=2cm, bottom=2cm" "geometry" t ("xelatex"))))
 (setq org-latex-image-default-width ".6\\linewidth")

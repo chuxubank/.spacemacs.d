@@ -371,7 +371,7 @@ It should only modify the values of Spacemacs settings."
    ;; If non-nil smooth scrolling (native-scrolling) is enabled. Smooth
    ;; scrolling overrides the default behavior of Emacs which recenters point
    ;; when it reaches the top or bottom of the screen. (default t)
-   dotspacemacs-smooth-scrolling nil
+   dotspacemacs-smooth-scrolling t
 
    ;; Control line numbers activation.
    ;; If set to `t', `relative' or `visual' then line numbers are enabled in all
@@ -452,7 +452,7 @@ It should only modify the values of Spacemacs settings."
    ;; %z - mnemonics of buffer, terminal, and keyboard coding systems
    ;; %Z - like %z, but including the end-of-line format
    ;; (default "%I@%S")
-   dotspacemacs-frame-title-format "%a"
+   dotspacemacs-frame-title-format "%a — %t"
 
    ;; Format specification for setting the icon title format
    ;; (default nil - same as frame-title-format)
@@ -540,6 +540,9 @@ before packages are loaded."
   (global-set-key (kbd "H-j") 'next-buffer)
   (global-set-key (kbd "H-k") 'previous-buffer)
 
+  ;; projectile
+  (setq projectile-project-search-path '("~/Developer"))
+
   ;; chinese
   (pyim-isearch-mode 1)
   (setq pyim-default-scheme 'rime-quanpin)
@@ -549,10 +552,9 @@ before packages are loaded."
                 '(pyim-probe-program-mode
                   pyim-probe-isearch-mode
                   pyim-probe-auto-english
-                  pyim-probe-org-latex-mode
-                  helm--alive-p))
+                  pyim-probe-org-latex-mode))
 
-  (global-set-key (kbd "M-j") 'pyim-convert-string-at-point)
+  (global-set-key (kbd "H-i") 'pyim-convert-string-at-point)
 
   (use-package liberime
     :if (eq 'pinyin chinese-default-input-method)
@@ -592,6 +594,14 @@ before packages are loaded."
             (lambda ()
               (define-key org-mode-map "\M-n" 'org-next-link)
               (define-key org-mode-map "\M-p" 'org-previous-link)))
+
+  ;; org-publish
+  (setq org-publish-project-alist
+        '(("UNGEE"
+           :base-directory "~/Developer/UNGEE"
+           :publishing-directory "~/Documents/UNGEE"
+           :publishing-function org-latex-publish-to-pdf
+           :recursive t)))
 
   ;; plantuml
   (setq plantuml-default-exec-mode 'executable)
@@ -653,6 +663,7 @@ This function is called at the very end of Spacemacs initialization."
    ;; If you edit it by hand, you could mess it up, so be careful.
    ;; Your init file should contain only one such instance.
    ;; If there is more than one, they won't work right.
+   '(org-drill-scope (quote file-no-restriction))
    '(org-modules
      (quote
       (org-bbdb org-bibtex org-docview org-eww org-gnus org-info org-irc org-mhe org-rmail org-w3m org-drill org-learn org-habit)))
