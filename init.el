@@ -575,7 +575,7 @@ before packages are loaded."
   (setq org-startup-align-all-tables t)
   (setq org-startup-with-inline-images t)
   (setq org-image-actual-width '(500))
-
+  ;; org hook
   (add-hook 'org-mode-hook
             (lambda ()
               (smartparens-mode 1)
@@ -588,17 +588,17 @@ before packages are loaded."
             (lambda ()
               (define-key org-mode-map "\M-n" 'org-next-link)
               (define-key org-mode-map "\M-p" 'org-previous-link)))
-
+  ;; org export
   (setq org-preview-latex-default-process 'dvisvgm)
+  (setq org-latex-pdf-process (list "latexmk -f -xelatex -shell-escape %f"))
+  (setq org-latex-compiler "xelatex")
   (setq org-export-async-init-file nil) ; spacemacs init
   (setq org-export-with-toc nil)
-  (setq org-latex-compiler "xelatex")
   (setq org-latex-packages-alist
         '(("" "ctex" t ("xelatex"))
           ("" "enumitem" t ("xelatex"))
           ("left=2.5cm, right=2.5cm, top=2cm, bottom=2cm" "geometry" t ("xelatex"))))
   (setq org-latex-image-default-width ".6\\linewidth")
-
   ;; org publish
   (setq org-publish-project-alist
         '(("UNGEE"
@@ -606,7 +606,6 @@ before packages are loaded."
            :publishing-directory "~/Documents/UNGEE"
            :publishing-function org-latex-publish-to-pdf
            :recursive t)))
-
   ;; org babel
   (defun my-org-confirm-babel-evaluate (lang body)
     (not (string= lang "plantuml")))
