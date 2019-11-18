@@ -73,6 +73,8 @@ This function should only modify configuration layer settings."
      plantuml
      prettier
      python
+     (shell :variables
+            shell-default-shell 'eshell)
      syntax-checking
      (version-control :variables
                       version-control-diff-side 'left)
@@ -590,7 +592,7 @@ before packages are loaded."
               (define-key org-mode-map "\M-p" 'org-previous-link)))
   ;; org export
   (setq org-preview-latex-default-process 'dvisvgm)
-  (setq org-latex-pdf-process (list "latexmk -f -xelatex -shell-escape %f"))
+  (setq org-latex-pdf-process (list "latexmk -f -xelatex %f"))
   (setq org-latex-compiler "xelatex")
   (setq org-export-async-init-file nil) ; spacemacs init
   (setq org-export-with-toc nil)
