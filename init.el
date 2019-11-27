@@ -530,6 +530,9 @@ Put your configuration code here, except for variables that should be set
 before packages are loaded."
   ;; theme
   (doom-themes-org-config)
+  (custom-set-faces
+   `(org-level-1 ((t (:inherit outline-1 :height 1.2))))
+   `(org-level-2 ((t (:inherit outline-2 :height 1.1)))))
   (doom-modeline-mode 1)
   (nyan-mode 1)
 
