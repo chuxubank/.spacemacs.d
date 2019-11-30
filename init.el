@@ -69,6 +69,7 @@ This function should only modify configuration layer settings."
           org-enable-bootstrap-support t
           org-enable-reveal-js-support t)
      osx
+     pandoc
      pdf
      plantuml
      prettier
@@ -78,6 +79,7 @@ This function should only modify configuration layer settings."
      syntax-checking
      (version-control :variables
                       version-control-diff-side 'left)
+     yaml
      )
 
    ;; List of additional packages that will be installed without being
@@ -530,9 +532,6 @@ Put your configuration code here, except for variables that should be set
 before packages are loaded."
   ;; theme
   (doom-themes-org-config)
-  (custom-set-faces
-   `(org-level-1 ((t (:inherit outline-1 :height 1.2))))
-   `(org-level-2 ((t (:inherit outline-2 :height 1.1)))))
   (doom-modeline-mode 1)
   (nyan-mode 1)
 
@@ -725,5 +724,7 @@ This function is called at the very end of Spacemacs initialization."
    ;; If you edit it by hand, you could mess it up, so be careful.
    ;; Your init file should contain only one such instance.
    ;; If there is more than one, they won't work right.
+   `(org-level-1 ((t (:inherit outline-1 :height 1.2))))
+   `(org-level-2 ((t (:inherit outline-2 :height 1.1))))
    )
   )
