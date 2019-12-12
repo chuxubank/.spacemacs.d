@@ -76,6 +76,9 @@ This function should only modify configuration layer settings."
      python
      (shell :variables
             shell-default-shell 'eshell)
+     (spell-checking :variables
+                     spell-checking-enable-auto-dictionary t
+                     enable-flyspell-auto-completion t)
      syntax-checking
      (version-control :variables
                       version-control-diff-side 'left)
@@ -537,7 +540,6 @@ before packages are loaded."
 
   ;; edit
   (setq-default word-wrap t)
-  (add-hook 'emacs-lisp-mode-hook #'aggressive-indent-mode)
 
   ;; osx
   (global-set-key (kbd "H-w") 'kill-this-buffer)
@@ -601,6 +603,8 @@ before packages are loaded."
   (setq org-latex-packages-alist
         '(("" "ctex" t ("xelatex"))
           ("" "enumitem" t ("xelatex"))
+          ("" "fontspec" t ("xelatex"))
+          ("" "booktabs" t ("xelatex"))
           ("left=2.5cm, right=2.5cm, top=2cm, bottom=2cm" "geometry" t ("xelatex"))))
   (setq org-latex-image-default-width ".6\\linewidth")
   ;; org publish
