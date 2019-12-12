@@ -100,6 +100,10 @@ This function should only modify configuration layer settings."
      leetcode
      nyan-mode
      posframe
+     (liberime-config :location (recipe
+                                 :fetcher github
+                                 :repo "merrickluo/liberime"
+                                 :files ("CMakeLists.txt" "Makefile" "src" "liberime-config.el")))
      )
 
    ;; A list of packages that cannot be updated.
@@ -551,7 +555,6 @@ before packages are loaded."
 
   ;; chinese
   (pyim-isearch-mode 1)
-  (setq pyim-default-scheme 'rime-quanpin)
   (setq pyim-page-tooltip 'posframe)
 
   (setq-default pyim-english-input-switch-functions
@@ -562,14 +565,12 @@ before packages are loaded."
 
   (global-set-key (kbd "H-i") 'pyim-convert-string-at-point)
 
-  (use-package liberime
-    :if (eq 'pinyin chinese-default-input-method)
-    :load-path "~/Developer/Rime/liberime/build"
-    :config
-    (liberime-start (expand-file-name "/Library/Input Methods/Squirrel.app/Contents/SharedSupport")
-                    (expand-file-name "pyim/rime/" spacemacs-private-directory))
-    (liberime-select-schema "luna_pinyin_simp")
-    )
+  (add-hook 'after-liberime-load-hook
+            (lambda ()
+              (liberime-start (expand-file-name "/Library/Input Methods/Squirrel.app/Contents/SharedSupport")
+                              (expand-file-name "pyim/rime/" spacemacs-private-directory))
+              (liberime-select-schema "luna_pinyin_simp")
+              (setq pyim-default-scheme 'rime-quanpin)))
 
   (global-pangu-spacing-mode t)
   (setq pangu-spacing-real-insert-separtor t)
