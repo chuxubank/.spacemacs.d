@@ -564,16 +564,15 @@ before packages are loaded."
                   pyim-probe-org-latex-mode))
 
   (global-set-key (kbd "H-i") 'pyim-convert-string-at-point)
-
-  (add-hook 'after-liberime-load-hook
-            (lambda ()
-              (liberime-start (expand-file-name "/Library/Input Methods/Squirrel.app/Contents/SharedSupport")
-                              (expand-file-name "pyim/rime/" spacemacs-private-directory))
-              (liberime-select-schema "luna_pinyin_simp")
-              (setq pyim-default-scheme 'rime-quanpin)))
+  (global-set-key (kbd "H-l") 'liberime-load)
 
   (global-pangu-spacing-mode t)
   (setq pangu-spacing-real-insert-separtor t)
+
+  (add-hook 'after-liberime-load-hook
+            (lambda ()
+              (liberime-select-schema "luna_pinyin_simp")
+              (setq pyim-default-scheme 'rime-quanpin)))
 
   ;; org
   (setq org-bullets-bullet-list '("■" "◆" "▲" "▶"))
