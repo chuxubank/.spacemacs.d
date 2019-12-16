@@ -41,6 +41,7 @@ This function should only modify configuration layer settings."
      spacemacs-editing
      spacemacs-layouts
      spacemacs-navigation
+     spacemacs-org
      spacemacs-project
      (auto-completion :variables
                       auto-completion-enable-snippets-in-popup t
@@ -53,6 +54,8 @@ This function should only modify configuration layer settings."
      (c-c++ :variables
             c-c++-enable-clang-support t
             c-c++-default-mode-for-headers 'c++-mode)
+     (colors :variables
+             colors-enable-nyan-cat-progress-bar t)
      chinese
      emacs-lisp
      git
@@ -64,7 +67,6 @@ This function should only modify configuration layer settings."
             latex-enable-auto-fill t
             latex-enable-folding t)
      markdown
-     multiple-cursors
      (org :variables
           org-enable-bootstrap-support t
           org-enable-reveal-js-support t)
@@ -98,7 +100,7 @@ This function should only modify configuration layer settings."
      doom-modeline
      doom-themes
      leetcode
-     nyan-mode
+     org-drill
      posframe
      (liberime-config :location (recipe
                                  :fetcher github
@@ -540,7 +542,6 @@ before packages are loaded."
   ;; theme
   (doom-themes-org-config)
   (doom-modeline-mode 1)
-  (nyan-mode 1)
 
   ;; edit
   (setq-default word-wrap t)
@@ -594,6 +595,7 @@ before packages are loaded."
             (lambda ()
               (define-key org-mode-map "\M-n" 'org-next-link)
               (define-key org-mode-map "\M-p" 'org-previous-link)))
+  (spacemacs|use-package-add-hook org :post-config (require 'org-drill))
   ;; org export
   (setq org-preview-latex-default-process 'dvisvgm)
   (setq org-latex-pdf-process (list "latexmk -f -xelatex %f"))
@@ -677,9 +679,6 @@ This function is called at the very end of Spacemacs initialization."
    ;; Your init file should contain only one such instance.
    ;; If there is more than one, they won't work right.
    '(org-drill-scope (quote file-no-restriction))
-   '(org-modules
-     (quote
-      (org-bbdb org-bibtex org-docview org-eww org-gnus org-info org-irc org-mhe org-rmail org-w3m org-drill org-learn org-habit)))
    '(org-latex-default-packages-alist
      (quote
       (("AUTO" "inputenc" t
