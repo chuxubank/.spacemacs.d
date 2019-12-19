@@ -52,7 +52,9 @@ This function should only modify configuration layer settings."
      better-defaults
      bibtex
      (c-c++ :variables
-            c-c++-enable-clang-support t
+            c-c++-enable-clang-format-on-save t
+            c-c++-enable-google-style t
+            c-c++-enable-google-newline t
             c-c++-default-mode-for-headers 'c++-mode)
      (colors :variables
              colors-enable-nyan-cat-progress-bar t)
@@ -69,6 +71,8 @@ This function should only modify configuration layer settings."
      markdown
      (org :variables
           org-enable-bootstrap-support t
+          org-enable-github-support t
+          org-enable-hugo-support t
           org-enable-reveal-js-support t)
      osx
      pandoc
@@ -79,6 +83,7 @@ This function should only modify configuration layer settings."
      (shell :variables
             shell-default-shell 'eshell)
      (spell-checking :variables
+                     spell-checking-enable-by-default nil
                      spell-checking-enable-auto-dictionary t
                      enable-flyspell-auto-completion t)
      syntax-checking
