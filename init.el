@@ -65,6 +65,9 @@ This function should only modify configuration layer settings."
      (html :variables
            web-fmt-tool 'prettier)
      ivy
+     (json :variables
+           json-fmt-tool 'prettier
+           json-fmt-on-save t)
      (latex :variables
             latex-enable-auto-fill t
             latex-enable-folding t)
@@ -75,7 +78,6 @@ This function should only modify configuration layer settings."
           org-enable-hugo-support t
           org-enable-reveal-js-support t)
      osx
-     pandoc
      pdf
      plantuml
      prettier
