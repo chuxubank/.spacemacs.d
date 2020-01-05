@@ -48,8 +48,6 @@ This function should only modify configuration layer settings."
      bibtex
      (c-c++ :variables
             c-c++-enable-clang-format-on-save t
-            c-c++-enable-google-style t
-            c-c++-enable-google-newline t
             c-c++-default-mode-for-headers 'c++-mode)
      (colors :variables
              colors-enable-nyan-cat-progress-bar t)
@@ -67,6 +65,7 @@ This function should only modify configuration layer settings."
      (latex :variables
             latex-enable-auto-fill t
             latex-enable-folding t)
+     lsp
      markdown
      (org :variables
           org-enable-bootstrap-support t
