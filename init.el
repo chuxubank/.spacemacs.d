@@ -582,6 +582,8 @@ before packages are loaded."
   (setq org-startup-align-all-tables t)
   (setq org-startup-with-inline-images t)
   (setq org-image-actual-width '(500))
+  (setq org-goto-interface 'outline-path-completion)
+  (setq org-outline-path-complete-in-steps nil)
   ;; org hook
   (add-hook 'org-mode-hook
             (lambda ()
