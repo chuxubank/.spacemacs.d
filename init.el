@@ -546,6 +546,9 @@ before packages are loaded."
   ;; edit
   (setq-default word-wrap t)
 
+  ;; shell
+  (global-set-key (kbd "C-`") 'spacemacs/default-pop-shell)
+
   ;; osx
   (global-set-key (kbd "H-w") 'kill-this-buffer)
   (global-set-key (kbd "H-j") 'next-buffer)
