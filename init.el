@@ -9,7 +9,7 @@ This function should only modify configuration layer settings."
    ;; Base distribution to use. This is a layer contained in the directory
    ;; `+distribution'. For now available distributions are `spacemacs-base'
    ;; or `spacemacs'. (default 'spacemacs)
-   dotspacemacs-distribution 'spacemacs-base
+   dotspacemacs-distribution 'spacemacs
 
    ;; Lazy installation of layers (i.e. layers are installed only when a file
    ;; with a supported type is opened). Possible values are `all', `unused'
@@ -38,11 +38,6 @@ This function should only modify configuration layer settings."
      ;; Uncomment some layer names and press `SPC f e R' (Vim style) or
      ;; `M-m f e R' (Emacs style) to install them.
      ;; ----------------------------------------------------------------
-     spacemacs-editing
-     spacemacs-layouts
-     spacemacs-navigation
-     spacemacs-org
-     spacemacs-project
      (auto-completion :variables
                       auto-completion-enable-snippets-in-popup t
                       auto-completion-enable-sort-by-usage t
@@ -62,6 +57,7 @@ This function should only modify configuration layer settings."
      emacs-lisp
      git
      github
+     helm
      (html :variables
            web-fmt-tool 'prettier)
      ivy
@@ -104,8 +100,6 @@ This function should only modify configuration layer settings."
    dotspacemacs-additional-packages
    '(
      cdlatex
-     doom-modeline
-     doom-themes
      leetcode
      org-drill
      posframe
