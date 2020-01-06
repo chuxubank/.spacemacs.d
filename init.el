@@ -553,12 +553,10 @@ before packages are loaded."
   (setq projectile-project-search-path '("~/Developer"))
 
   ;; chinese
-  (pyim-isearch-mode 1)
   (setq pyim-page-tooltip 'posframe)
 
   (setq-default pyim-english-input-switch-functions
                 '(pyim-probe-program-mode
-                  pyim-probe-isearch-mode
                   pyim-probe-auto-english
                   pyim-probe-org-latex-mode))
 
@@ -652,9 +650,6 @@ before packages are loaded."
 
   ;; pdf
   (setq pdf-view-use-scaling t)
-  (add-hook 'pdf-view-mode-hook
-            (lambda ()
-              (pyim-isearch-mode -1)))
 
   ;; google-translate
   (setq google-translate-backend-method 'curl)
