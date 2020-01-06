@@ -541,7 +541,6 @@ Put your configuration code here, except for variables that should be set
 before packages are loaded."
   ;; theme
   (doom-themes-org-config)
-  (doom-modeline-mode 1)
 
   ;; edit
   (setq-default word-wrap t)
@@ -650,12 +649,6 @@ before packages are loaded."
 
   ;; pdf
   (setq pdf-view-use-scaling t)
-
-  ;; google-translate
-  (setq google-translate-backend-method 'curl)
-  (setq google-translate--tkk-url "http://translate.google.cn/")
-  (setq google-translate-base-url "http://translate.google.cn/translate_a/single")
-  (setq google-translate-default-target-language "zh-CN")
 
   ;; leetcode
   (setq leetcode-prefer-language "cpp")
