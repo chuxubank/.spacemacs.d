@@ -485,7 +485,7 @@ It should only modify the values of Spacemacs settings."
    ;; Run `spacemacs/prettify-org-buffer' when
    ;; visiting README.org files of Spacemacs.
    ;; (default nil)
-   dotspacemacs-pretty-docs nil))
+   dotspacemacs-pretty-docs t))
 
 (defun dotspacemacs/user-env ()
   "Environment variables setup.
@@ -548,11 +548,6 @@ before packages are loaded."
 
   ;; shell
   (global-set-key (kbd "C-`") 'spacemacs/default-pop-shell)
-
-  ;; osx
-  (global-set-key (kbd "H-w") 'kill-this-buffer)
-  (global-set-key (kbd "H-j") 'next-buffer)
-  (global-set-key (kbd "H-k") 'previous-buffer)
 
   ;; projectile
   (setq projectile-project-search-path '("~/Developer"))
