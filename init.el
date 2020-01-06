@@ -592,7 +592,6 @@ before packages are loaded."
             (lambda ()
               (define-key org-mode-map "\M-n" 'org-next-link)
               (define-key org-mode-map "\M-p" 'org-previous-link)))
-  (spacemacs|use-package-add-hook org :pre-config (add-to-list 'org-modules 'org-drill))
   ;; org export
   (setq org-preview-latex-default-process 'dvisvgm)
   (setq org-latex-pdf-process (list "latexmk -f -xelatex %f"))
