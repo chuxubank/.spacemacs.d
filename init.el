@@ -232,7 +232,7 @@ It should only modify the values of Spacemacs settings."
    ;; Press `SPC T n' to cycle to the next theme in the list (works great
    ;; with 2 themes variants, one dark and one light)
    dotspacemacs-themes '(
-                         doom-dracula
+                         doom-one
                          spacemacs-dark
                          spacemacs-light
                          )
@@ -465,7 +465,7 @@ It should only modify the values of Spacemacs settings."
    ;; %z - mnemonics of buffer, terminal, and keyboard coding systems
    ;; %Z - like %z, but including the end-of-line format
    ;; (default "%I@%S")
-   dotspacemacs-frame-title-format "%a — %t"
+   dotspacemacs-frame-title-format "%b - Spacemacs"
 
    ;; Format specification for setting the icon title format
    ;; (default nil - same as frame-title-format)
