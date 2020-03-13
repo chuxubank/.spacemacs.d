@@ -105,7 +105,7 @@ This function should only modify configuration layer settings."
      (liberime-config :location (recipe
                                  :fetcher github
                                  :repo "merrickluo/liberime"
-                                 :files ("CMakeLists.txt" "Makefile" "src" "liberime-config.el")))
+                                 :files ("CMakeLists.txt" "Makefile" "src" "liberime*.el")))
      )
 
    ;; A list of packages that cannot be updated.
@@ -562,12 +562,11 @@ before packages are loaded."
                   pyim-probe-org-latex-mode))
 
   (global-set-key (kbd "H-i") 'pyim-convert-string-at-point)
-  (global-set-key (kbd "H-l") 'liberime-load)
 
   (global-pangu-spacing-mode t)
   (setq pangu-spacing-real-insert-separtor t)
 
-  (add-hook 'after-liberime-load-hook
+  (add-hook 'liberime-after-start-hook
             (lambda ()
               (liberime-select-schema "luna_pinyin_simp")
               (setq pyim-default-scheme 'rime-quanpin)))
