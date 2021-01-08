@@ -49,13 +49,12 @@ This function should only modify configuration layer settings."
      (c-c++ :variables
             c-c++-enable-clang-format-on-save t
             c-c++-default-mode-for-headers 'c++-mode)
-     (colors :variables
-             colors-enable-nyan-cat-progress-bar t)
-     chinese
+     colors
+     (elfeed :variables
+             rmh-elfeed-org-files (list "~/org/elfeed.org"))
      emacs-lisp
      git
      github
-     helm
      (html :variables
            web-fmt-tool 'prettier)
      ivy
@@ -71,7 +70,8 @@ This function should only modify configuration layer settings."
           org-enable-bootstrap-support t
           org-enable-github-support t
           org-enable-hugo-support t
-          org-enable-reveal-js-support t)
+          org-enable-reveal-js-support t
+          org-enable-roam-support t)
      osx
      pdf
      plantuml
@@ -102,10 +102,6 @@ This function should only modify configuration layer settings."
      leetcode
      org-drill
      posframe
-     (liberime-config :location (recipe
-                                 :fetcher github
-                                 :repo "merrickluo/liberime"
-                                 :files ("CMakeLists.txt" "Makefile" "src" "liberime*.el")))
      )
 
    ;; A list of packages that cannot be updated.
@@ -146,9 +142,9 @@ It should only modify the values of Spacemacs settings."
    ;; portable dumper in the cache directory under dumps sub-directory.
    ;; To load it when starting Emacs add the parameter `--dump-file'
    ;; when invoking Emacs 27.1 executable on the command line, for instance:
-   ;;   ./emacs --dump-file=~/.emacs.d/.cache/dumps/spacemacs.pdmp
-   ;; (default spacemacs.pdmp)
-   dotspacemacs-emacs-dumper-dump-file "spacemacs.pdmp"
+   ;;   ./emacs --dump-file=$HOME/.emacs.d/.cache/dumps/spacemacs-27.1.pdmp
+   ;; (default (format "spacemacs-%s.pdmp" emacs-version))
+   dotspacemacs-emacs-dumper-dump-file (format "spacemacs-%s.pdmp" emacs-version)
 
    ;; If non-nil ELPA repositories are contacted via HTTPS whenever it's
    ;; possible. Set it to nil if you have no way to use HTTPS in your
@@ -168,9 +164,18 @@ It should only modify the values of Spacemacs settings."
    ;; (default '(100000000 0.1))
    dotspacemacs-gc-cons '(100000000 0.1)
 
+   ;; Set `read-process-output-max' when startup finishes.
+   ;; This defines how much data is read from a foreign process.
+   ;; Setting this >= 1 MB should increase performance for lsp servers
+   ;; in emacs 27.
+   ;; (default (* 1024 1024))
+   dotspacemacs-read-process-output-max (* 1024 1024)
+
    ;; If non-nil then Spacelpa repository is the primary source to install
    ;; a locked version of packages. If nil then Spacemacs will install the
-   ;; latest version of packages from MELPA. (default nil)
+   ;; latest version of packages from MELPA. Spacelpa is currently in
+   ;; experimental state please use only for testing purposes.
+   ;; (default nil)
    dotspacemacs-use-spacelpa nil
 
    ;; If non-nil then verify the signature for downloaded Spacelpa archives.
@@ -229,6 +234,14 @@ It should only modify the values of Spacemacs settings."
    ;; Default major mode of the scratch buffer (default `text-mode')
    dotspacemacs-scratch-mode 'text-mode
 
+   ;; If non-nil, *scratch* buffer will be persistent. Things you write down in
+   ;; *scratch* buffer will be saved and restored automatically.
+   dotspacemacs-scratch-buffer-persistent nil
+
+   ;; If non-nil, `kill-buffer' on *scratch* buffer
+   ;; will bury it instead of killing.
+   dotspacemacs-scratch-buffer-unkillable nil
+
    ;; Initial message in the scratch buffer, such as "Welcome to Spacemacs!"
    ;; (default nil)
    dotspacemacs-initial-scratch-message nil
@@ -237,6 +250,7 @@ It should only modify the values of Spacemacs settings."
    ;; Press `SPC T n' to cycle to the next theme in the list (works great
    ;; with 2 themes variants, one dark and one light)
    dotspacemacs-themes '(
+                         doom-dracula
                          doom-one
                          spacemacs-dark
                          spacemacs-light
@@ -256,7 +270,7 @@ It should only modify the values of Spacemacs settings."
    dotspacemacs-colorize-cursor-according-to-state t
 
    ;; Default font or prioritized list of fonts.
-   dotspacemacs-default-font '("Sarasa Mono SC"
+   dotspacemacs-default-font '("Fira Code"
                                :size 16
                                :weight normal
                                :width normal)
@@ -280,8 +294,10 @@ It should only modify the values of Spacemacs settings."
    dotspacemacs-major-mode-leader-key ","
 
    ;; Major mode leader key accessible in `emacs state' and `insert state'.
-   ;; (default "C-M-m")
-   dotspacemacs-major-mode-emacs-leader-key "C-M-m"
+   ;; (default "C-M-m" for terminal mode, "<M-return>" for GUI mode).
+   ;; Thus M-RET should work as leader key in both GUI and terminal modes.
+   ;; C-M-m also should work in terminal mode, but not in GUI mode.
+   dotspacemacs-major-mode-emacs-leader-key (if window-system "<M-return>" "C-M-m")
 
    ;; These variables control whether separate commands are bound in the GUI to
    ;; the key pairs `C-i', `TAB' and `C-m', `RET'.
@@ -483,6 +499,20 @@ It should only modify the values of Spacemacs settings."
    ;; (default nil)
    dotspacemacs-whitespace-cleanup nil
 
+   ;; If non nil activate `clean-aindent-mode' which tries to correct
+   ;; virtual indentation of simple modes. This can interfer with mode specific
+   ;; indent handling like has been reported for `go-mode'.
+   ;; If it does deactivate it here.
+   ;; (default t)
+   dotspacemacs-use-clean-aindent-mode t
+
+   ;; If non-nil shift your number row to match the entered keyboard layout
+   ;; (only in insert state). Currently supported keyboard layouts are:
+   ;; `qwerty-us', `qwertz-de' and `querty-ca-fr'.
+   ;; New layouts can be added in `spacemacs-editing' layer.
+   ;; (default nil)
+   dotspacemacs-swap-number-row nil
+
    ;; Either nil or a number of seconds. If non-nil zone out after the specified
    ;; number of seconds. (default nil)
    dotspacemacs-zone-out-when-idle nil
@@ -490,7 +520,11 @@ It should only modify the values of Spacemacs settings."
    ;; Run `spacemacs/prettify-org-buffer' when
    ;; visiting README.org files of Spacemacs.
    ;; (default nil)
-   dotspacemacs-pretty-docs t))
+   dotspacemacs-pretty-docs t
+
+   ;; If nil the home buffer shows the full path of agenda items
+   ;; and todos. If non nil only the file name is shown.
+   dotspacemacs-home-shorten-agenda-source nil))
 
 (defun dotspacemacs/user-env ()
   "Environment variables setup.
@@ -515,17 +549,6 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
     '(("melpa-cn" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/")
       ("org-cn"   . "http://mirrors.tuna.tsinghua.edu.cn/elpa/org/")
       ("gnu-cn"   . "http://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")))
-
-  ;; org
-  (defun yas-org-very-safe-expand ()
-    (let ((yas-fallback-behavior 'return-nil)) (yas-expand)))
-  (add-hook 'org-mode-hook
-            (lambda ()
-              (add-to-list 'org-tab-first-hook 'yas-org-very-safe-expand)
-              (define-key yas-keymap [tab] 'yas-next-field)))
-
-  ;; chinese
-  (setq pyim-punctuation-translate-p '(no yes auto))
   )
 
 (defun dotspacemacs/user-load ()
@@ -541,9 +564,6 @@ This function is called at the very end of Spacemacs startup, after layer
 configuration.
 Put your configuration code here, except for variables that should be set
 before packages are loaded."
-  ;; theme
-  (doom-themes-org-config)
-
   ;; edit
   (setq-default word-wrap t)
 
@@ -553,33 +573,14 @@ before packages are loaded."
   ;; projectile
   (setq projectile-project-search-path '("~/Developer"))
 
-  ;; chinese
-  (setq pyim-page-tooltip 'posframe)
-
-  (setq-default pyim-english-input-switch-functions
-                '(pyim-probe-program-mode
-                  pyim-probe-auto-english
-                  pyim-probe-org-latex-mode))
-
-  (global-set-key (kbd "H-i") 'pyim-convert-string-at-point)
-
-  (global-pangu-spacing-mode t)
-  (setq pangu-spacing-real-insert-separtor t)
-
-  (add-hook 'liberime-after-start-hook
-            (lambda ()
-              (liberime-select-schema "luna_pinyin_simp")
-              (setq pyim-default-scheme 'rime-quanpin)))
-
   ;; org
-  (setq org-bullets-bullet-list '("■" "◆" "▲" "▶"))
-  (setq org-agenda-files '("~/org"))
-  (setq org-startup-indented t)
-  (setq org-startup-align-all-tables t)
-  (setq org-startup-with-inline-images t)
-  (setq org-image-actual-width '(500))
-  (setq org-goto-interface 'outline-path-completion)
-  (setq org-outline-path-complete-in-steps nil)
+  (setq org-agenda-files '("~/org")
+        org-startup-indented t
+        org-startup-align-all-tables t
+        org-startup-with-inline-images t
+        org-image-actual-width '(500)
+        org-goto-interface 'outline-path-completion
+        org-outline-path-complete-in-steps nil)
   ;; org hook
   (add-hook 'org-mode-hook
             (lambda ()
